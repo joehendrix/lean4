@@ -55,6 +55,10 @@ Author: Leonardo de Moura
 #endif
 #include "githash.h" // NOLINT
 
+#if defined(LEAN_LLVM)
+#include <llvm/Support/TargetSelect.h>
+#endif
+
 #ifdef _MSC_VER
 // extremely simple implementation of getopt.h
 enum arg_opt { no_argument, required_argument, optional_argument };
@@ -333,6 +337,10 @@ int main(int argc, char ** argv) {
 #endif
 #if defined(LEAN_JSON)
     bool json_output = false;
+#endif
+#if defined(LEAN_LLVM)
+    // Initialize LLVM backends for native code generation.
+    llvm::InitializeNativeTarget();
 #endif
 
     search_path path = get_lean_path_from_env().value_or(get_builtin_search_path());
