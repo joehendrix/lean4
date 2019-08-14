@@ -167,7 +167,7 @@ void serializer::write_object(object * o) {
             m_out.put(1);
             write_unsigned(it->second);
         } else {
-            object_kind k = get_kind(o);
+            lean_object_kind k = get_kind(o);
             m_out.put(static_cast<unsigned>(k) + 2);
             switch (k) {
             case object_kind::Constructor:  write_constructor(o); break;
@@ -355,7 +355,7 @@ object * deserializer::read_object() {
             throw corrupted_stream_exception();
         return m_objs[i];
     } else {
-        object_kind k = static_cast<object_kind>(c - 2);
+        lean_object_kind k = static_cast<lean_object_kind>(c - 2);
         object * r;
         switch (k) {
         case object_kind::Constructor:  r = read_constructor(); break;

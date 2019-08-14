@@ -58,23 +58,30 @@ struct segment {
 
     void move_to_heap(heap *);
 };
+}
+}
 
-struct heap {
-    segment * m_curr_segment{nullptr};
-    heap *    m_next_orphan{nullptr};
-    page *    m_curr_page[LEAN_NUM_SLOTS];
-    page *    m_page_free_list[LEAN_NUM_SLOTS];
+struct lean_allocator_heap {
+    lean::allocator::segment * m_curr_segment{nullptr};
+    lean_allocator_heap *    m_next_orphan{nullptr};
+    lean_allocator_page *    m_curr_page[LEAN_NUM_SLOTS];
+    lean_allocator_page *    m_page_free_list[LEAN_NUM_SLOTS];
     /* Objects that must be sent to other heaps. */
     void *    m_to_export_list{nullptr};
     unsigned  m_to_export_list_size{0};
-    mutex     m_mutex; /* for the following fields */
+    lean::mutex     m_mutex; /* for the following fields */
     /* The following list contains object by this heap that were deallocated
        by other heaps. */
-    void *    m_to_import_list{nullptr};
+    void * m_to_import_list{nullptr};
     void import_objs();
     void export_objs();
     void alloc_segment();
 };
+
+LEAN_THREAD_GLOBAL_PTR(lean_allocator_page *, lean_allocator_g_curr_pages);
+
+namespace lean {
+namespace allocator {
 
 struct heap_manager {
     /* The mutex protects the list of orphan segments. */
@@ -105,7 +112,6 @@ static inline page * get_page_of(void * o) {
     return reinterpret_cast<page*>((reinterpret_cast<size_t>(o)/LEAN_PAGE_SIZE)*LEAN_PAGE_SIZE);
 }
 
-LEAN_THREAD_GLOBAL_PTR(page *, g_curr_pages);
 LEAN_THREAD_PTR(heap, g_heap);
 static heap_manager * g_heap_manager = nullptr;
 
@@ -138,22 +144,45 @@ static inline page * page_list_pop(page * & head) {
     head = head->get_next();
     return r;
 }
+}
+}
 
-void page::push_free_obj(void * o) {
-    set_next_obj(o, m_header.m_free_list);
+void lean_allocator_page::push_free_obj(void * o) {
+    lean::allocator::set_next_obj(o, m_header.m_free_list);
     m_header.m_free_list = o;
     m_header.m_num_free++;
     if (!in_page_free_list() && has_many_free()) {
-        heap * h = get_heap();
+        lean_allocator_heap * h = get_heap();
         unsigned slot_idx = m_header.m_slot_idx;
         if (this != h->m_curr_page[slot_idx]) {
             LEAN_RUNTIME_STAT_CODE(g_num_recycled_pages++);
             m_header.m_in_page_free_list = true;
-            page_list_remove(h->m_curr_page[slot_idx], this);
-            page_list_insert(h->m_page_free_list[slot_idx], this);
+            lean::allocator::page_list_remove(h->m_curr_page[slot_idx], this);
+            lean::allocator::page_list_insert(h->m_page_free_list[slot_idx], this);
         }
     }
 }
+
+void lean_allocator_heap::import_objs() {
+    using namespace lean; // NOLINT
+    using namespace lean::allocator; // NOLINT
+
+    void * to_import = nullptr;
+    {   // TODO(Leo): avoid mutex using compare and swap
+        lock_guard<lean::mutex> lock(m_mutex);
+        to_import = m_to_import_list;
+        m_to_import_list = nullptr;
+    }
+    while (to_import) {
+        page * p = get_page_of(to_import);
+        void * n = get_next_obj(to_import);
+        p->push_free_obj(to_import);
+        to_import = n;
+    }
+}
+
+namespace lean {
+namespace allocator {
 
 void segment::move_to_heap(heap * h) {
     /* "Move" pages in `s` to this heap */
@@ -171,28 +200,18 @@ void segment::move_to_heap(heap * h) {
     }
 }
 
-void heap::import_objs() {
-    void * to_import = nullptr;
-    {   // TODO(Leo): avoid mutex using compare and swap
-        lock_guard<mutex> lock(m_mutex);
-        to_import = m_to_import_list;
-        m_to_import_list = nullptr;
-    }
-    while (to_import) {
-        page * p = get_page_of(to_import);
-        void * n = get_next_obj(to_import);
-        p->push_free_obj(to_import);
-        to_import = n;
-    }
-}
 
 struct export_entry {
     heap * m_heap;
     void * m_head;
     void * m_tail;
 };
+}
+}
 
-void heap::export_objs() {
+void lean_allocator_heap::export_objs() {
+    using namespace lean; // NOLINT
+    using namespace lean::allocator; // NOLINT
     std::vector<export_entry> to_export;
     void * o = m_to_export_list;
     while (o != nullptr) {
@@ -223,8 +242,11 @@ void heap::export_objs() {
     }
 }
 
-void heap::alloc_segment() {
-    if (heap * h = g_heap_manager->pop_orphan()) {
+void lean_allocator_heap::alloc_segment() {
+    using namespace lean; // NOLINT
+    using namespace lean::allocator; // NOLINT
+
+    if (lean_allocator_heap * h = g_heap_manager->pop_orphan()) {
         lean_assert(h->m_curr_segment);
         segment * s = h->m_curr_segment;
         h->m_curr_segment = s->m_next;
@@ -245,7 +267,9 @@ void heap::alloc_segment() {
     }
 }
 
-static page * alloc_page(heap * h, unsigned obj_size) {
+static lean_allocator_page * alloc_page(lean_allocator_heap * h, unsigned obj_size) {
+    using namespace lean::allocator; // NOLINT
+
     lean_assert(align(obj_size, LEAN_OBJECT_SIZE_DELTA) == obj_size);
     segment * s = h->m_curr_segment;
     LEAN_RUNTIME_STAT_CODE(g_num_pages++);
@@ -289,16 +313,17 @@ static page * alloc_page(heap * h, unsigned obj_size) {
 }
 
 static void finalize_heap(void * _h) {
-    heap * h = static_cast<heap*>(_h);
+    lean_allocator_heap * h = static_cast<lean_allocator_heap*>(_h);
     h->export_objs();
     h->import_objs();
-    g_heap_manager->push_orphan(h);
+    lean::allocator::g_heap_manager->push_orphan(h);
 }
 
 static void init_heap(bool main) {
+    using namespace lean::allocator; // NOLINT
     lean_assert(g_heap == nullptr);
     g_heap = new heap();
-    g_curr_pages = g_heap->m_curr_page;
+    lean_allocator_g_curr_pages = g_heap->m_curr_page;
     g_heap->alloc_segment();
     unsigned obj_size = LEAN_OBJECT_SIZE_DELTA;
     for (unsigned i = 0; i < LEAN_NUM_SLOTS; i++) {
@@ -308,17 +333,13 @@ static void init_heap(bool main) {
         obj_size += LEAN_OBJECT_SIZE_DELTA;
     }
     if (!main)
-        register_thread_finalizer(finalize_heap, g_heap);
-}
-}
-using namespace allocator; // NOLINT
-
-void init_thread_heap() {
-    init_heap(false);
+        lean::register_thread_finalizer(finalize_heap, g_heap);
 }
 
-void * alloc(size_t sz) {
-    sz = align(sz, LEAN_OBJECT_SIZE_DELTA);
+void * lean_alloc(size_t sz) {
+    using namespace lean::allocator; // NOLINT
+
+    sz = lean_allocator_align(sz, LEAN_OBJECT_SIZE_DELTA);
     LEAN_RUNTIME_STAT_CODE(g_num_alloc++);
     if (LEAN_UNLIKELY(sz > LEAN_MAX_SMALL_OBJECT_SIZE)) {
         void * r = malloc(sz);
@@ -347,6 +368,15 @@ void * alloc(size_t sz) {
     return r;
 }
 
+namespace lean {
+
+using namespace allocator; // NOLINT
+
+void init_thread_heap() {
+    init_heap(false);
+}
+
+
 void dealloc(void * o, size_t sz) {
     LEAN_RUNTIME_STAT_CODE(g_num_dealloc++);
     sz = align(sz, LEAN_OBJECT_SIZE_DELTA);
@@ -371,8 +401,10 @@ void dealloc(void * o, size_t sz) {
         }
     }
 }
+}
 
-void * alloc_small_slow(size_t sz, unsigned slot_idx) {
+void * lean_alloc_small_slow(size_t sz, unsigned slot_idx) {
+    using namespace lean::allocator; // NOLINT
     page * p = g_heap->m_curr_page[slot_idx];
     if (g_heap->m_page_free_list[slot_idx] == nullptr) {
         g_heap->import_objs();
@@ -389,12 +421,13 @@ void * alloc_small_slow(size_t sz, unsigned slot_idx) {
     return r;
 }
 
-void * big_alloc(size_t sz) {
+void * lean_big_alloc(size_t sz) {
     void * r = malloc(sz);
     if (r == nullptr) throw std::bad_alloc();
     return r;
 }
 
+namespace lean {
 void initialize_alloc() {
 #ifdef LEAN_SMALL_ALLOCATOR
     g_heap_manager = new heap_manager();

@@ -212,7 +212,6 @@ obj* l_Lean_Parser_Term_list___elambda__1___closed__10;
 obj* l_Lean_Parser_Term_anonymousCtor___closed__4;
 obj* l_Lean_Parser_Term_quotedName___elambda__1___rarg___closed__1;
 obj* l_Lean_Parser_Term_show___closed__4;
-extern obj* l_List_repr___rarg___closed__3;
 obj* l_Lean_Parser_Term_show___elambda__1___rarg___closed__6;
 obj* l_Lean_Parser_Term_fun___elambda__1___closed__10;
 obj* l_Lean_Parser_mergeOrElseErrors(obj*, obj*, obj*);
@@ -625,7 +624,6 @@ obj* l_Lean_Parser_Term_cons___closed__1;
 obj* l_Lean_Parser_Term_explicitBinder___closed__8;
 obj* l_Lean_Parser_Term_if___closed__2;
 obj* l_Lean_Parser_Term_depArrow;
-extern obj* l_List_repr___rarg___closed__2;
 obj* l_Lean_Parser_Term_list___elambda__1___closed__4;
 extern obj* l_Lean_Parser_Level_paren___elambda__1___rarg___closed__6;
 obj* l_Lean_Parser_Term_have___closed__10;
@@ -671,6 +669,7 @@ obj* l_Lean_Parser_Term_sub___elambda__1___closed__3;
 obj* l_Lean_Parser_ParserState_mkNode(obj*, obj*, obj*);
 obj* l_Lean_Parser_Term_doLet___closed__4;
 obj* l___regBuiltinParser_Lean_Parser_Term_suffices(obj*);
+extern obj* l_List_repr___main___rarg___closed__3;
 obj* l_Lean_Parser_Term_doLet___elambda__1___closed__1;
 obj* l_Lean_Parser_regBuiltinTermParserAttr___closed__2;
 obj* l_Lean_Parser_Term_parser_x21___closed__1;
@@ -968,7 +967,6 @@ obj* l_Lean_Parser_Term_tparser_x21___closed__1;
 extern obj* l_Lean_Parser_Level_paren___elambda__1___rarg___closed__3;
 obj* l_Lean_Parser_Term_namedPattern___elambda__1___rarg___closed__5;
 obj* l_Lean_Parser_Term_have___closed__9;
-extern obj* l_Int_repr___closed__1;
 obj* l_Lean_Parser_Term_explicitUniv;
 obj* l_Lean_Parser_Term_explicitUniv___closed__3;
 obj* l_Lean_Parser_Term_have___closed__1;
@@ -1202,6 +1200,7 @@ obj* l_Lean_Parser_Term_array___closed__3;
 obj* l_Lean_Parser_Term_show___closed__5;
 obj* l_Lean_Parser_manyAux___main___at_Lean_Parser_Term_simpleBinder___elambda__1___spec__1(uint8, obj*, obj*, obj*);
 obj* l_Lean_Parser_Term_nomatch___elambda__1___rarg___closed__3;
+extern obj* l_Int_repr___main___closed__1;
 obj* l_Lean_Parser_Term_sortApp___elambda__1(obj*, obj*, obj*);
 obj* l_Lean_Parser_Term_have___closed__7;
 obj* l_Lean_Parser_Term_have___elambda__1___rarg___closed__9;
@@ -1599,6 +1598,7 @@ obj* l_Lean_Parser_Term_bracktedBinder___boxed(obj*);
 obj* l_Lean_Parser_Term_tupleTail___closed__2;
 obj* l_Lean_Parser_Term_structInstField;
 obj* l_Lean_Parser_Term_seq;
+extern obj* l_List_repr___main___rarg___closed__2;
 obj* l_Lean_Parser_Term_andthen___closed__3;
 obj* l_Lean_Parser_Term_doId___closed__6;
 obj* l_Lean_Parser_Term_binderDefault___elambda__1___boxed(obj*);
@@ -11776,7 +11776,7 @@ obj* _init_l_Lean_Parser_Term_list___elambda__1___closed__3() {
 _start:
 {
 obj* x_1; obj* x_2; 
-x_1 = l_List_repr___rarg___closed__2;
+x_1 = l_List_repr___main___rarg___closed__2;
 x_2 = l_String_trim(x_1);
 return x_2;
 }
@@ -11785,7 +11785,7 @@ obj* _init_l_Lean_Parser_Term_list___elambda__1___closed__4() {
 _start:
 {
 obj* x_1; obj* x_2; 
-x_1 = l_List_repr___rarg___closed__3;
+x_1 = l_List_repr___main___rarg___closed__3;
 x_2 = l_String_trim(x_1);
 return x_2;
 }
@@ -22463,7 +22463,7 @@ obj* _init_l_Lean_Parser_Term_uminus___elambda__1___rarg___closed__3() {
 _start:
 {
 obj* x_1; obj* x_2; 
-x_1 = l_Int_repr___closed__1;
+x_1 = l_Int_repr___main___closed__1;
 x_2 = l_String_trim(x_1);
 return x_2;
 }

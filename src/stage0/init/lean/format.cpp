@@ -27,7 +27,6 @@ obj* l_Lean_Format_pretty(obj*, obj*);
 obj* l_Lean_toStringToFormat___rarg(obj*);
 obj* l_Lean_Format_repr___main___closed__4;
 obj* l_Lean_Format_paren___closed__2;
-extern obj* l_List_repr___rarg___closed__3;
 obj* l_Lean_Format_indentOption___closed__1;
 obj* l_Lean_Format_defIndent;
 obj* l_Nat_repeatAux___main___at_String_pushn___spec__1(uint32, obj*, obj*);
@@ -80,7 +79,6 @@ obj* l_Lean_Format_repr___main___closed__3;
 obj* l_Lean_Format_getUnicode___boxed(obj*);
 uint8 l_Lean_KVMap_getBool(obj*, obj*, uint8);
 obj* l_Nat_repr(obj*);
-extern obj* l_List_repr___rarg___closed__2;
 obj* l_Lean_Format_getWidth(obj*);
 obj* l_Lean_Format_sbracket___closed__2;
 obj* l_Lean_Format_repr___main___closed__16;
@@ -88,6 +86,7 @@ obj* l_Lean_Format_getUnicode___closed__1;
 obj* l_Lean_Format_joinArraySep(obj*);
 obj* l_Lean_toStringToFormat___rarg___closed__1;
 obj* l_Lean_uint64HasFormat(uint64);
+extern obj* l_List_repr___main___rarg___closed__3;
 obj* l_Lean_toStringToFormat___rarg___lambda__1(obj*);
 obj* l_Lean_Format_repr___main___closed__17;
 obj* l_Lean_Format_repr___main___closed__18;
@@ -113,6 +112,7 @@ obj* uint64_to_nat(uint64);
 }
 obj* l_Lean_List_format___rarg(obj*, obj*);
 obj* l_Lean_Format_joinSuffix___rarg(obj*, obj*, obj*);
+obj* l_Int_repr___main(obj*);
 obj* l_Lean_Format_HasAppend;
 obj* l_List_foldl___main___at_Lean_Format_join___spec__1___boxed(obj*, obj*);
 obj* l_Lean_formatEntry(obj*);
@@ -120,7 +120,6 @@ obj* l_Array_fget(obj*, obj*, obj*);
 extern "C" obj* lean_name_mk_string(obj*, obj*);
 obj* l_Lean_natHasFormat(obj*);
 obj* l_Lean_Format_repr___main___closed__19;
-obj* l_Int_repr(obj*);
 obj* l_Lean_registerOption(obj*, obj*, obj*);
 namespace lean {
 obj* nat_add(obj*, obj*);
@@ -164,6 +163,7 @@ obj* l_Lean_Format_repr___main___closed__14;
 obj* l_Lean_HasRepr___closed__1;
 obj* l_Lean_formatKVMap___closed__1;
 obj* l_Lean_Format_repr___main___closed__7;
+extern obj* l_List_repr___main___rarg___closed__1;
 obj* l_Lean_Format_repr___main___closed__5;
 obj* l_Lean_formatDataValue___closed__2;
 obj* l_Array_miterateAux___main___at_Lean_Format_joinArraySep___spec__1(obj*);
@@ -210,6 +210,7 @@ obj* l_String_quote(obj*);
 namespace lean {
 obj* format_pretty_core(obj*, obj*);
 }
+extern obj* l_List_repr___main___rarg___closed__2;
 obj* l_Lean_Format_HasAppend___closed__1;
 obj* l_Lean_Format_join___boxed(obj*);
 namespace lean {
@@ -226,7 +227,6 @@ obj* l_Array_miterateAux___main___at_Lean_Format_joinArraySep___spec__1___rarg__
 obj* l_Lean_Format_repr___main___closed__1;
 obj* l_Lean_uint16HasFormat(uint16);
 obj* l_Lean_Format_join(obj*);
-extern obj* l_List_repr___rarg___closed__1;
 obj* l_Lean_Format_repr___main___closed__6;
 obj* l_Lean_Format_unicodeOption___closed__2;
 extern obj* l_String_splitAux___main___closed__1;
@@ -1351,7 +1351,7 @@ obj* _init_l_Lean_Format_sbracket___closed__1() {
 _start:
 {
 obj* x_1; obj* x_2; 
-x_1 = l_List_repr___rarg___closed__2;
+x_1 = l_List_repr___main___rarg___closed__2;
 x_2 = lean::string_length(x_1);
 return x_2;
 }
@@ -1360,7 +1360,7 @@ obj* _init_l_Lean_Format_sbracket___closed__2() {
 _start:
 {
 obj* x_1; obj* x_2; 
-x_1 = l_List_repr___rarg___closed__2;
+x_1 = l_List_repr___main___rarg___closed__2;
 x_2 = lean::alloc_cnstr(2, 1, 0);
 lean::cnstr_set(x_2, 0, x_1);
 return x_2;
@@ -1370,7 +1370,7 @@ obj* _init_l_Lean_Format_sbracket___closed__3() {
 _start:
 {
 obj* x_1; obj* x_2; 
-x_1 = l_List_repr___rarg___closed__3;
+x_1 = l_List_repr___main___rarg___closed__3;
 x_2 = lean::alloc_cnstr(2, 1, 0);
 lean::cnstr_set(x_2, 0, x_1);
 return x_2;
@@ -1984,7 +1984,7 @@ obj* _init_l_Lean_List_format___rarg___closed__1() {
 _start:
 {
 obj* x_1; obj* x_2; 
-x_1 = l_List_repr___rarg___closed__1;
+x_1 = l_List_repr___main___rarg___closed__1;
 x_2 = lean::alloc_cnstr(2, 1, 0);
 lean::cnstr_set(x_2, 0, x_1);
 return x_2;
@@ -3141,7 +3141,7 @@ obj* x_18; obj* x_19; obj* x_20;
 x_18 = lean::cnstr_get(x_1, 0);
 lean::inc(x_18);
 lean::dec(x_1);
-x_19 = l_Int_repr(x_18);
+x_19 = l_Int_repr___main(x_18);
 lean::dec(x_18);
 x_20 = lean::alloc_cnstr(2, 1, 0);
 lean::cnstr_set(x_20, 0, x_19);

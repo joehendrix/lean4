@@ -15,8 +15,10 @@ Author: Leonardo de Moura
 #include "runtime/int64.h"
 #include "runtime/optional.h"
 
+struct lean_object;
+
 namespace lean {
-struct object;
+using object = lean_object;
 class mpz;
 class serializer {
     std::ostream & m_out;

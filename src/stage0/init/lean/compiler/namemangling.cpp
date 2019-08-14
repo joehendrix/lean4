@@ -15,6 +15,7 @@ typedef lean::uint32 uint32; typedef lean::uint64 uint64;
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
 #endif
 obj* l_Lean_Name_mangle(obj*, obj*);
+uint32 l_String_Iterator_curr___main(obj*);
 extern "C" uint8 lean_name_dec_eq(obj*, obj*);
 namespace lean {
 obj* nat_sub(obj*, obj*);
@@ -29,8 +30,8 @@ obj* string_push(obj*, uint32);
 obj* l___private_init_lean_compiler_namemangling_2__Name_mangleAux___main(obj*);
 obj* l___private_init_lean_compiler_namemangling_1__String_mangleAux___main___closed__2;
 obj* l_Nat_repr(obj*);
-obj* l_String_Iterator_next(obj*);
 obj* l___private_init_lean_compiler_namemangling_1__String_mangleAux(obj*, obj*, obj*);
+obj* l_String_Iterator_next___main(obj*);
 namespace lean {
 obj* string_append(obj*, obj*);
 }
@@ -48,7 +49,6 @@ obj* l_Lean_String_mangle(obj*);
 uint8 l_UInt32_decEq(uint32, uint32);
 uint8 l_Char_isDigit(uint32);
 obj* l___private_init_lean_compiler_namemangling_1__String_mangleAux___main___closed__1;
-uint32 l_String_Iterator_curr(obj*);
 namespace lean {
 obj* nat_div(obj*, obj*);
 }
@@ -96,7 +96,7 @@ obj* x_6; obj* x_7; uint32 x_8; uint8 x_9;
 x_6 = lean::mk_nat_obj(1u);
 x_7 = lean::nat_sub(x_1, x_6);
 lean::dec(x_1);
-x_8 = l_String_Iterator_curr(x_2);
+x_8 = l_String_Iterator_curr___main(x_2);
 x_9 = l_Char_isAlpha(x_8);
 if (x_9 == 0)
 {
@@ -142,7 +142,7 @@ lean::dec(x_27);
 x_33 = l_Nat_digitChar(x_32);
 lean::dec(x_32);
 x_34 = lean::string_push(x_31, x_33);
-x_35 = l_String_Iterator_next(x_2);
+x_35 = l_String_Iterator_next___main(x_2);
 x_1 = x_7;
 x_2 = x_35;
 x_3 = x_34;
@@ -163,7 +163,7 @@ lean::dec(x_13);
 x_44 = l_Nat_digitChar(x_43);
 lean::dec(x_43);
 x_45 = lean::string_push(x_42, x_44);
-x_46 = l_String_Iterator_next(x_2);
+x_46 = l_String_Iterator_next___main(x_2);
 x_1 = x_7;
 x_2 = x_46;
 x_3 = x_45;
@@ -173,7 +173,7 @@ goto _start;
 else
 {
 obj* x_48; obj* x_49; obj* x_50; 
-x_48 = l_String_Iterator_next(x_2);
+x_48 = l_String_Iterator_next___main(x_2);
 x_49 = l___private_init_lean_compiler_namemangling_1__String_mangleAux___main___closed__3;
 x_50 = lean::string_append(x_3, x_49);
 x_1 = x_7;
@@ -185,7 +185,7 @@ goto _start;
 else
 {
 obj* x_52; obj* x_53; 
-x_52 = l_String_Iterator_next(x_2);
+x_52 = l_String_Iterator_next___main(x_2);
 x_53 = lean::string_push(x_3, x_8);
 x_1 = x_7;
 x_2 = x_52;
@@ -196,7 +196,7 @@ goto _start;
 else
 {
 obj* x_55; obj* x_56; 
-x_55 = l_String_Iterator_next(x_2);
+x_55 = l_String_Iterator_next___main(x_2);
 x_56 = lean::string_push(x_3, x_8);
 x_1 = x_7;
 x_2 = x_55;

@@ -28,12 +28,14 @@ Author: Leonardo de Moura
 #include <dirent.h>
 #endif
 
+extern "C"
+void lean_io_result_show_error(lean_b_obj_arg r) {
+    std::cerr << "uncaught exception: " << lean::string_cstr(lean_io_result_get_error(r)) << std::endl;
+}
+
 namespace lean {
 static obj_res const REAL_WORLD = box(0);
 
-void io_result_show_error(b_obj_arg r) {
-    std::cerr << "uncaught exception: " << string_cstr(io_result_get_error(r)) << std::endl;
-}
 
 obj_res set_io_result(obj_arg r, obj_arg a) {
     if (is_exclusive(r)) {
@@ -76,7 +78,9 @@ obj_res set_io_error(obj_arg r, std::string const & msg) {
 }
 
 static bool g_initializing = true;
-void io_mark_end_initialization() {
+
+extern "C"
+void lean_io_mark_end_initialization() {
     g_initializing = false;
 }
 

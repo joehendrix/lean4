@@ -14,6 +14,7 @@ typedef lean::uint32 uint32; typedef lean::uint64 uint64;
 #pragma GCC diagnostic ignored "-Wunused-label"
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
 #endif
+obj* l_RBNode_setBlack___main___rarg(obj*);
 obj* l_unsafeCast(obj*, obj*, obj*, obj*);
 obj* l___private_init_lean_compiler_ir_rc_11__addDecForDeadParams___boxed(obj*, obj*, obj*);
 obj* l___private_init_lean_compiler_ir_rc_8__addIncBefore(obj*, obj*, obj*, obj*, obj*);
@@ -58,7 +59,6 @@ obj* l_Nat_foldAux___main___at___private_init_lean_compiler_ir_rc_8__addIncBefor
 obj* l_RBNode_erase___at___private_init_lean_compiler_ir_livevars_8__bindVar___spec__1(obj*, obj*);
 obj* l_Lean_IR_ExplicitRC_getJPLiveVars___boxed(obj*, obj*);
 obj* l_Array_ummapAux___main___at_Lean_IR_ExplicitRC_visitFnBody___main___spec__1___boxed(obj*, obj*, obj*, obj*, obj*);
-uint8 l_RBNode_isRed___rarg(obj*);
 uint8 l_Lean_IR_Arg_beq(obj*, obj*);
 obj* l_RBNode_find___main___at_Lean_IR_ExplicitRC_getVarInfo___spec__1___boxed(obj*, obj*);
 obj* l_Nat_anyAux___main___at___private_init_lean_compiler_ir_rc_4__isBorrowParamAux___spec__1___boxed(obj*, obj*, obj*, obj*, obj*);
@@ -87,6 +87,7 @@ uint8 nat_dec_eq(obj*, obj*);
 extern obj* l_Lean_IR_paramInh;
 uint8 l_Array_isEmpty___rarg(obj*);
 obj* l_Array_push(obj*, obj*, obj*);
+uint8 l_RBNode_isRed___main___rarg(obj*);
 uint8 l_Lean_IR_CtorInfo_isRef(obj*);
 obj* l___private_init_lean_compiler_ir_rc_12__isPersistent___boxed(obj*);
 obj* l___private_init_lean_compiler_ir_rc_4__isBorrowParamAux___at___private_init_lean_compiler_ir_rc_10__addIncBeforeConsumeAll___spec__4___boxed(obj*);
@@ -131,7 +132,6 @@ obj* l___private_init_lean_compiler_ir_rc_9__addDecAfterFullApp___boxed(obj*, ob
 obj* l_Array_miterateAux___main___at___private_init_lean_compiler_ir_rc_11__addDecForDeadParams___spec__1(obj*, obj*, obj*, obj*, obj*);
 obj* l___private_init_lean_compiler_ir_rc_2__addDecForAlt(obj*, obj*, obj*, obj*);
 obj* l___private_init_lean_compiler_ir_rc_6__getNumConsumptions___at___private_init_lean_compiler_ir_rc_10__addIncBeforeConsumeAll___spec__2(obj*, obj*);
-obj* l_RBNode_setBlack___rarg(obj*);
 obj* l___private_init_lean_compiler_ir_rc_6__getNumConsumptions(obj*, obj*, obj*);
 uint8 l_Nat_anyAux___main___at___private_init_lean_compiler_ir_rc_10__addIncBeforeConsumeAll___spec__5(obj*, obj*);
 obj* l___private_init_lean_compiler_ir_rc_17__processVDecl___boxed(obj*, obj*, obj*, obj*, obj*, obj*);
@@ -589,7 +589,7 @@ return x_1;
 else
 {
 uint8 x_34; 
-x_34 = l_RBNode_isRed___rarg(x_31);
+x_34 = l_RBNode_isRed___main___rarg(x_31);
 if (x_34 == 0)
 {
 obj* x_35; 
@@ -1269,7 +1269,7 @@ return x_1;
 else
 {
 uint8 x_174; 
-x_174 = l_RBNode_isRed___rarg(x_28);
+x_174 = l_RBNode_isRed___main___rarg(x_28);
 if (x_174 == 0)
 {
 obj* x_175; 
@@ -1988,7 +1988,7 @@ return x_321;
 else
 {
 uint8 x_322; 
-x_322 = l_RBNode_isRed___rarg(x_318);
+x_322 = l_RBNode_isRed___main___rarg(x_318);
 if (x_322 == 0)
 {
 obj* x_323; obj* x_324; 
@@ -2432,7 +2432,7 @@ return x_399;
 else
 {
 uint8 x_400; 
-x_400 = l_RBNode_isRed___rarg(x_315);
+x_400 = l_RBNode_isRed___main___rarg(x_315);
 if (x_400 == 0)
 {
 obj* x_401; obj* x_402; 
@@ -2881,7 +2881,7 @@ obj* l_RBNode_insert___at___private_init_lean_compiler_ir_rc_1__updateRefUsingCt
 _start:
 {
 uint8 x_4; 
-x_4 = l_RBNode_isRed___rarg(x_1);
+x_4 = l_RBNode_isRed___main___rarg(x_1);
 if (x_4 == 0)
 {
 obj* x_5; 
@@ -2892,7 +2892,7 @@ else
 {
 obj* x_6; obj* x_7; 
 x_6 = l_RBNode_ins___main___at___private_init_lean_compiler_ir_rc_1__updateRefUsingCtorInfo___spec__2(x_1, x_2, x_3);
-x_7 = l_RBNode_setBlack___rarg(x_6);
+x_7 = l_RBNode_setBlack___main___rarg(x_6);
 return x_7;
 }
 }

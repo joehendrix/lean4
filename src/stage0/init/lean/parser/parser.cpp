@@ -18,8 +18,10 @@ obj* l_Lean_mkErrorStringWithPos(obj*, obj*, obj*, obj*);
 obj* l___private_init_lean_parser_parser_8__updateTokens___closed__1;
 obj* l_Lean_Parser_symbolNoWsFnAux___boxed(obj*, obj*, obj*, obj*, obj*);
 uint8 l_Lean_Parser_checkTailNoWs(obj*);
+obj* l_List_toString___main___at_Lean_Parser_FirstTokens_toStr___spec__1(obj*);
 obj* l_Lean_Parser_ParserState_mkUnexpectedErrorAt(obj*, obj*, obj*);
 obj* l_Lean_Parser_symbolOrIdentInfo___elambda__1___boxed(obj*);
+obj* l_RBNode_setBlack___main___rarg(obj*);
 obj* l_Lean_Parser_checkLeadingFn___closed__1;
 obj* l_Lean_Parser_runParser(obj*, obj*, obj*, obj*, obj*);
 obj* l_unsafeCast(obj*, obj*, obj*, obj*);
@@ -55,7 +57,6 @@ obj* l_Lean_Parser_sepBy1(uint8, obj*, obj*, uint8);
 obj* l_Lean_Parser_strAux___main___boxed(obj*, obj*, obj*, obj*, obj*);
 obj* l_Lean_AttributeImpl_inhabited___lambda__4___boxed(obj*, obj*, obj*);
 obj* l_Lean_Parser_longestMatchFnAux(uint8, obj*, obj*, obj*, obj*, obj*, obj*);
-obj* l_List_toString___at_Lean_Parser_FirstTokens_toStr___spec__1(obj*);
 obj* l_Lean_Parser_hashAndthen(uint8);
 obj* l_Lean_Parser_rawIdentFn(obj*, obj*);
 obj* l_Lean_Parser_ParserFn_inhabited___rarg(obj*);
@@ -96,7 +97,6 @@ obj* l_Lean_Parser_unicodeSymbolCheckPrecFn___closed__2;
 obj* l_Array_miterateAux___main___at_Lean_Parser_getSyntaxNodeKinds___spec__2___boxed(obj*, obj*, obj*, obj*);
 obj* l_List_map___main___at_Lean_Parser_addBuiltinLeadingParser___spec__1(obj*);
 obj* l_String_intercalate(obj*, obj*);
-extern obj* l_List_repr___rarg___closed__3;
 obj* l_Lean_Parser_ParserState_hasError___boxed(obj*);
 obj* l_Lean_Parser_mergeOrElseErrors(obj*, obj*, obj*);
 extern obj* l___private_init_lean_compiler_initattr_2__isUnitType___closed__2;
@@ -181,6 +181,7 @@ obj* l_List_foldl___main___at_Lean_Parser_addBuiltinTrailingParser___spec__1(obj
 obj* l_Lean_Syntax_mfoldArgsAux___main___at_Lean_Syntax_mforArgs___spec__1___rarg___lambda__1(obj*, obj*, obj*, obj*, obj*, obj*);
 obj* l_List_eraseDupsAux___main___at_Lean_Parser_addBuiltinLeadingParser___spec__3(obj*, obj*);
 obj* l_Lean_Parser_TokenMap_insert___rarg(obj*, obj*, obj*);
+uint8 l_List_isEmpty___main___rarg(obj*);
 obj* l_Lean_Parser_satisfyFn___at_Lean_Parser_chFn___spec__1___boxed(obj*, obj*, obj*, obj*);
 obj* l_Lean_Parser_many1Indent(uint8, obj*, obj*);
 obj* l_Lean_Parser_pushLeading___closed__2;
@@ -324,7 +325,6 @@ obj* l_Lean_Parser_TokenMap_Inhabited(obj*);
 obj* l_Nat_repr(obj*);
 obj* l_Array_back___at___private_init_lean_parser_parser_6__updateCache___spec__1___boxed(obj*);
 obj* l_Lean_Parser_checkNoWsBeforeFn(obj*, obj*, obj*);
-extern obj* l_List_repr___rarg___closed__2;
 extern obj* l_Lean_EnvExtensionState_inhabited;
 obj* l_Lean_Syntax_mfoldArgsAux___main___at_Lean_Syntax_mforArgs___spec__1___rarg___lambda__1___boxed(obj*, obj*, obj*, obj*, obj*, obj*);
 obj* l_Lean_Syntax_mfoldArgsAux___main___rarg___lambda__1___boxed(obj*, obj*, obj*, obj*, obj*, obj*);
@@ -352,6 +352,7 @@ extern "C" usize lean_name_hash_usize(obj*);
 obj* l_Array_extract___rarg(obj*, obj*, obj*);
 extern obj* l_Lean_registerPersistentEnvExtensionUnsafe___rarg___closed__3;
 obj* l_Lean_Parser_ParserState_next___boxed(obj*, obj*, obj*);
+extern obj* l_List_repr___main___rarg___closed__3;
 obj* l_Lean_Parser_binNumberFn___closed__1;
 obj* l_Lean_PersistentEnvExtension_getState___rarg(obj*, obj*);
 obj* l_Lean_Parser_fieldIdx___lambda__1(obj*, obj*, obj*);
@@ -408,7 +409,6 @@ uint8 string_utf8_at_end(obj*, obj*);
 }
 obj* l_Lean_Parser_sepBy(uint8, obj*, obj*, uint8);
 obj* l_Lean_Parser_unquotedSymbol(uint8);
-uint8 l_RBNode_isRed___rarg(obj*);
 obj* l_Lean_Parser_FirstTokens_seq(obj*, obj*);
 obj* l_Lean_Parser_andthenFn(uint8);
 obj* l_Lean_Parser_takeWhileFn___at_Lean_Parser_binNumberFn___spec__2___boxed(obj*, obj*);
@@ -506,10 +506,10 @@ obj* l_Lean_Syntax_mforSepArgs(obj*, obj*);
 obj* l_Lean_Parser_symbol___boxed(obj*, obj*, obj*);
 obj* l_Array_push(obj*, obj*, obj*);
 obj* l_Lean_Parser_charLitFn___boxed(obj*, obj*);
+uint8 l_RBNode_isRed___main___rarg(obj*);
 obj* l_Lean_Parser_pushLeadingFn(obj*, obj*, obj*);
 extern obj* l_Lean_strLitKind;
 obj* l_Lean_Parser_satisfyFn___at_Lean_Parser_chFn___spec__1(uint32, obj*, obj*, obj*);
-uint8 l_List_isEmpty___rarg(obj*);
 obj* l_Lean_Parser_ident___closed__1;
 obj* l_Lean_Syntax_foldSepArgs___rarg(obj*, obj*, obj*);
 obj* l_Lean_Parser_Parser_inhabited___lambda__1___boxed(obj*, obj*, obj*);
@@ -646,6 +646,7 @@ obj* l_Lean_Parser_unquotedSymbol___elambda__1(uint8, obj*);
 obj* l_Lean_Parser_andthenAux(obj*, obj*, obj*, obj*);
 obj* l_Lean_Parser_mkParserContextCore(obj*, obj*, obj*);
 obj* l_IO_Prim_Ref_get(obj*, obj*, obj*);
+extern obj* l_List_repr___main___rarg___closed__1;
 obj* l_Lean_Parser_symbolNoWsFnAux(obj*, obj*, obj*, obj*, obj*);
 obj* l_RBNode_insert___at_Lean_Parser_TokenMap_insert___spec__2(obj*);
 obj* l_Lean_Parser_ParserContextCore_inhabited___closed__1;
@@ -743,7 +744,6 @@ obj* l_Lean_Parser_TokenTableAttribute_inhabited___closed__3;
 obj* l_Lean_Parser_symbolNoWs___boxed(obj*, obj*);
 uint8 l_List_hasDecEq___main___at_Lean_Parser_Error_toString___spec__1(obj*, obj*);
 obj* l_Lean_Parser_quotedSymbolFn___rarg___closed__5;
-obj* l_RBNode_setBlack___rarg(obj*);
 obj* l_Lean_Parser_lookaheadFn___boxed(obj*);
 obj* l_Lean_Parser_unicodeSymbolFn___rarg(obj*, obj*, obj*, obj*, obj*);
 obj* l_Lean_Syntax_mfoldArgs___rarg___boxed(obj*, obj*, obj*, obj*);
@@ -854,6 +854,7 @@ obj* l_Lean_Parser_noFirstTokenInfo___elambda__1(obj*, obj*);
 obj* l_Lean_Parser_ParserContextCore_inhabited;
 obj* l_Lean_Parser_takeUntilFn___main___at_Lean_Parser_decimalNumberFn___spec__2___boxed(obj*, obj*);
 obj* l_Lean_Parser_declareTrailingBuiltinParser___closed__1;
+extern obj* l_List_repr___main___rarg___closed__2;
 obj* l_Lean_Parser_declareBuiltinParser(obj*, obj*, obj*, obj*, obj*);
 obj* l_Lean_Syntax_getOptionalIdent___rarg(obj*);
 obj* l_Lean_Parser_takeUntilFn___main___at_Lean_Parser_octalNumberFn___spec__3(obj*, obj*);
@@ -897,7 +898,6 @@ obj* l_IO_Prim_Ref_reset(obj*, obj*, obj*);
 obj* l_Lean_Parser_ParserAttribute_inhabited___closed__2;
 obj* l_Lean_Parser_checkColGe___lambda__1___boxed(obj*, obj*, obj*, obj*, obj*);
 obj* l_Lean_Parser_ParserState_mkErrorsAt(obj*, obj*, obj*);
-extern obj* l_List_repr___rarg___closed__1;
 obj* l_Lean_Parser_quotedSymbolFn___rarg(obj*, obj*, obj*);
 extern obj* l___private_init_lean_environment_5__envExtensionsRef;
 obj* l___private_init_lean_parser_parser_1__expectedToString___main(obj*);
@@ -2768,13 +2768,13 @@ return x_17;
 }
 }
 }
-obj* l_List_toString___at_Lean_Parser_FirstTokens_toStr___spec__1(obj* x_1) {
+obj* l_List_toString___main___at_Lean_Parser_FirstTokens_toStr___spec__1(obj* x_1) {
 _start:
 {
 if (lean::obj_tag(x_1) == 0)
 {
 obj* x_2; 
-x_2 = l_List_repr___rarg___closed__1;
+x_2 = l_List_repr___main___rarg___closed__1;
 return x_2;
 }
 else
@@ -2782,10 +2782,10 @@ else
 uint8 x_3; obj* x_4; obj* x_5; obj* x_6; obj* x_7; obj* x_8; 
 x_3 = 1;
 x_4 = l_List_toStringAux___main___at_Lean_Parser_FirstTokens_toStr___spec__2(x_3, x_1);
-x_5 = l_List_repr___rarg___closed__2;
+x_5 = l_List_repr___main___rarg___closed__2;
 x_6 = lean::string_append(x_5, x_4);
 lean::dec(x_4);
-x_7 = l_List_repr___rarg___closed__3;
+x_7 = l_List_repr___main___rarg___closed__3;
 x_8 = lean::string_append(x_6, x_7);
 return x_8;
 }
@@ -2837,7 +2837,7 @@ obj* x_4; obj* x_5;
 x_4 = lean::cnstr_get(x_1, 0);
 lean::inc(x_4);
 lean::dec(x_1);
-x_5 = l_List_toString___at_Lean_Parser_FirstTokens_toStr___spec__1(x_4);
+x_5 = l_List_toString___main___at_Lean_Parser_FirstTokens_toStr___spec__1(x_4);
 return x_5;
 }
 default: 
@@ -2846,7 +2846,7 @@ obj* x_6; obj* x_7; obj* x_8; obj* x_9;
 x_6 = lean::cnstr_get(x_1, 0);
 lean::inc(x_6);
 lean::dec(x_1);
-x_7 = l_List_toString___at_Lean_Parser_FirstTokens_toStr___spec__1(x_6);
+x_7 = l_List_toString___main___at_Lean_Parser_FirstTokens_toStr___spec__1(x_6);
 x_8 = l_Lean_Parser_FirstTokens_toStr___closed__3;
 x_9 = lean::string_append(x_8, x_7);
 lean::dec(x_7);
@@ -13648,7 +13648,7 @@ return x_1;
 else
 {
 uint8 x_34; 
-x_34 = l_RBNode_isRed___rarg(x_31);
+x_34 = l_RBNode_isRed___main___rarg(x_31);
 if (x_34 == 0)
 {
 obj* x_35; 
@@ -14328,7 +14328,7 @@ return x_1;
 else
 {
 uint8 x_174; 
-x_174 = l_RBNode_isRed___rarg(x_28);
+x_174 = l_RBNode_isRed___main___rarg(x_28);
 if (x_174 == 0)
 {
 obj* x_175; 
@@ -15047,7 +15047,7 @@ return x_321;
 else
 {
 uint8 x_322; 
-x_322 = l_RBNode_isRed___rarg(x_318);
+x_322 = l_RBNode_isRed___main___rarg(x_318);
 if (x_322 == 0)
 {
 obj* x_323; obj* x_324; 
@@ -15491,7 +15491,7 @@ return x_399;
 else
 {
 uint8 x_400; 
-x_400 = l_RBNode_isRed___rarg(x_315);
+x_400 = l_RBNode_isRed___main___rarg(x_315);
 if (x_400 == 0)
 {
 obj* x_401; obj* x_402; 
@@ -16087,7 +16087,7 @@ return x_1;
 else
 {
 uint8 x_34; 
-x_34 = l_RBNode_isRed___rarg(x_31);
+x_34 = l_RBNode_isRed___main___rarg(x_31);
 if (x_34 == 0)
 {
 obj* x_35; 
@@ -16767,7 +16767,7 @@ return x_1;
 else
 {
 uint8 x_174; 
-x_174 = l_RBNode_isRed___rarg(x_28);
+x_174 = l_RBNode_isRed___main___rarg(x_28);
 if (x_174 == 0)
 {
 obj* x_175; 
@@ -17486,7 +17486,7 @@ return x_321;
 else
 {
 uint8 x_322; 
-x_322 = l_RBNode_isRed___rarg(x_318);
+x_322 = l_RBNode_isRed___main___rarg(x_318);
 if (x_322 == 0)
 {
 obj* x_323; obj* x_324; 
@@ -17930,7 +17930,7 @@ return x_399;
 else
 {
 uint8 x_400; 
-x_400 = l_RBNode_isRed___rarg(x_315);
+x_400 = l_RBNode_isRed___main___rarg(x_315);
 if (x_400 == 0)
 {
 obj* x_401; obj* x_402; 
@@ -18387,7 +18387,7 @@ obj* l_RBNode_insert___at_Lean_Parser_TokenMap_insert___spec__2___rarg(obj* x_1,
 _start:
 {
 uint8 x_4; 
-x_4 = l_RBNode_isRed___rarg(x_1);
+x_4 = l_RBNode_isRed___main___rarg(x_1);
 if (x_4 == 0)
 {
 obj* x_5; 
@@ -18398,7 +18398,7 @@ else
 {
 obj* x_6; obj* x_7; 
 x_6 = l_RBNode_ins___main___at_Lean_Parser_TokenMap_insert___spec__4___rarg(x_1, x_2, x_3);
-x_7 = l_RBNode_setBlack___rarg(x_6);
+x_7 = l_RBNode_setBlack___main___rarg(x_6);
 return x_7;
 }
 }
@@ -18554,7 +18554,7 @@ return x_1;
 else
 {
 uint8 x_34; 
-x_34 = l_RBNode_isRed___rarg(x_31);
+x_34 = l_RBNode_isRed___main___rarg(x_31);
 if (x_34 == 0)
 {
 obj* x_35; 
@@ -19234,7 +19234,7 @@ return x_1;
 else
 {
 uint8 x_174; 
-x_174 = l_RBNode_isRed___rarg(x_28);
+x_174 = l_RBNode_isRed___main___rarg(x_28);
 if (x_174 == 0)
 {
 obj* x_175; 
@@ -19953,7 +19953,7 @@ return x_321;
 else
 {
 uint8 x_322; 
-x_322 = l_RBNode_isRed___rarg(x_318);
+x_322 = l_RBNode_isRed___main___rarg(x_318);
 if (x_322 == 0)
 {
 obj* x_323; obj* x_324; 
@@ -20397,7 +20397,7 @@ return x_399;
 else
 {
 uint8 x_400; 
-x_400 = l_RBNode_isRed___rarg(x_315);
+x_400 = l_RBNode_isRed___main___rarg(x_315);
 if (x_400 == 0)
 {
 obj* x_401; obj* x_402; 
@@ -20993,7 +20993,7 @@ return x_1;
 else
 {
 uint8 x_34; 
-x_34 = l_RBNode_isRed___rarg(x_31);
+x_34 = l_RBNode_isRed___main___rarg(x_31);
 if (x_34 == 0)
 {
 obj* x_35; 
@@ -21673,7 +21673,7 @@ return x_1;
 else
 {
 uint8 x_174; 
-x_174 = l_RBNode_isRed___rarg(x_28);
+x_174 = l_RBNode_isRed___main___rarg(x_28);
 if (x_174 == 0)
 {
 obj* x_175; 
@@ -22392,7 +22392,7 @@ return x_321;
 else
 {
 uint8 x_322; 
-x_322 = l_RBNode_isRed___rarg(x_318);
+x_322 = l_RBNode_isRed___main___rarg(x_318);
 if (x_322 == 0)
 {
 obj* x_323; obj* x_324; 
@@ -22836,7 +22836,7 @@ return x_399;
 else
 {
 uint8 x_400; 
-x_400 = l_RBNode_isRed___rarg(x_315);
+x_400 = l_RBNode_isRed___main___rarg(x_315);
 if (x_400 == 0)
 {
 obj* x_401; obj* x_402; 
@@ -23293,7 +23293,7 @@ obj* l_RBNode_insert___at_Lean_Parser_TokenMap_insert___spec__5___rarg(obj* x_1,
 _start:
 {
 uint8 x_4; 
-x_4 = l_RBNode_isRed___rarg(x_1);
+x_4 = l_RBNode_isRed___main___rarg(x_1);
 if (x_4 == 0)
 {
 obj* x_5; 
@@ -23304,7 +23304,7 @@ else
 {
 obj* x_6; obj* x_7; 
 x_6 = l_RBNode_ins___main___at_Lean_Parser_TokenMap_insert___spec__7___rarg(x_1, x_2, x_3);
-x_7 = l_RBNode_setBlack___rarg(x_6);
+x_7 = l_RBNode_setBlack___main___rarg(x_6);
 return x_7;
 }
 }
@@ -24111,7 +24111,7 @@ lean::inc(x_10);
 x_11 = lean::cnstr_get(x_9, 1);
 lean::inc(x_11);
 lean::dec(x_9);
-x_12 = l_List_isEmpty___rarg(x_11);
+x_12 = l_List_isEmpty___main___rarg(x_11);
 if (x_12 == 0)
 {
 uint8 x_13; obj* x_14; obj* x_15; 
@@ -24234,7 +24234,7 @@ lean::inc(x_14);
 x_15 = lean::cnstr_get(x_13, 1);
 lean::inc(x_15);
 lean::dec(x_13);
-x_16 = l_List_isEmpty___rarg(x_15);
+x_16 = l_List_isEmpty___main___rarg(x_15);
 if (x_16 == 0)
 {
 obj* x_17; obj* x_18; 
@@ -24270,7 +24270,7 @@ else
 obj* x_24; uint8 x_25; 
 x_24 = lean::cnstr_get(x_1, 2);
 lean::inc(x_24);
-x_25 = l_List_isEmpty___rarg(x_24);
+x_25 = l_List_isEmpty___main___rarg(x_24);
 lean::dec(x_24);
 if (x_25 == 0)
 {

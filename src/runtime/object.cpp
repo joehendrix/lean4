@@ -241,7 +241,8 @@ static void del_core(object * o, object * & todo) {
     }
 }
 
-void del(object * o) {
+extern "C"
+void lean_del(object * o) {
 #ifdef LEAN_LAZY_RC
     push_back(g_to_free, o);
 #else
@@ -256,7 +257,8 @@ void del(object * o) {
 #endif
 }
 
-void * alloc_heap_object(size_t sz) {
+extern "C"
+void * lean_alloc_heap_object(size_t sz) {
 #ifdef LEAN_LAZY_RC
     if (g_to_free) {
         object * o = pop_back(g_to_free);
@@ -611,21 +613,25 @@ public:
     }
 };
 
-static task_manager * g_task_manager = nullptr;
+} // namespace lean
 
-scoped_task_manager::scoped_task_manager(unsigned num_workers) {
+static lean::task_manager * g_task_manager = nullptr;
+
+void lean_alloc_global_task_manager(unsigned num_workers) {
     lean_assert(g_task_manager == nullptr);
 #if defined(LEAN_MULTI_THREAD)
-    g_task_manager = new task_manager(num_workers);
+    g_task_manager = new lean::task_manager(num_workers);
 #endif
 }
 
-scoped_task_manager::~scoped_task_manager() {
+void lean_dealloc_global_task_manager() {
     if (g_task_manager) {
         delete g_task_manager;
         g_task_manager = nullptr;
     }
 }
+
+namespace lean {
 
 void deactivate_task(task_object * t) {
     lean_assert(g_task_manager);
@@ -841,13 +847,15 @@ b_obj_res io_wait_any_core(b_obj_arg task_list) {
     return g_task_manager->wait_any(task_list);
 }
 
-void mark_persistent(object * o);
 static obj_res mark_persistent_fn(obj_arg o) {
-    mark_persistent(o);
+    lean_mark_persistent(o);
     return box(0);
 }
+}
 
-void mark_persistent(object * o) {
+void lean_mark_persistent(lean_object * o) {
+    using namespace lean; // NOLINT
+
     buffer<object*> todo;
     todo.push_back(o);
     while (!todo.empty()) {
@@ -899,6 +907,7 @@ void mark_persistent(object * o) {
     }
 }
 
+namespace lean {
 // =======================================
 // Natural numbers
 

@@ -21,7 +21,11 @@ Author: Leonardo de Moura
 #define LEAN_DEFAULT_THREAD_STACK_SIZE 8*1024*1024 // 8Mb
 #endif
 
+unsigned lean_hardware_concurrency() { return std::thread::hardware_concurrency(); }
+
 namespace lean {
+
+
 static std::vector<std::function<void()>> * g_thread_local_reset_fns;
 
 static void initialize_thread_local_reset_fns() {

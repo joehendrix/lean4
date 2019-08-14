@@ -5,18 +5,31 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Author: Leonardo de Moura
 */
 #pragma once
+
+
+#ifdef __cplusplus
 #include <vector>
 #include <string>
 #include <cstdlib>
 #include <limits>
+#else
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdatomic.h>
+#endif
+
 #if !defined(__APPLE__)
 #include <malloc.h>
 #endif
+
+#ifdef __cplusplus
 #include "config.h" // NOLINT
-#include "runtime/compiler_hints.h"
 #include "runtime/mpz.h"
 #include "runtime/int64.h"
 #include "runtime/thread.h"
+#endif // __cplusplus
+
+#include "runtime/compiler_hints.h"
 #include "runtime/alloc.h"
 
 #ifdef _MSC_VER
@@ -25,30 +38,31 @@ Author: Leonardo de Moura
 #define LEAN_ALLOCA(s) ::alloca(s)
 #endif
 
-namespace lean {
-typedef unsigned char      uint8;
-typedef unsigned short     uint16;
-typedef unsigned           uint32;
-typedef unsigned long long uint64;
-typedef size_t             usize;
+
+LEAN_EXTERN_BEGIN
 
 #ifdef LEAN_RUNTIME_STATS
-#define LEAN_RUNTIME_STAT_CODE(c) c
-extern atomic<uint64> g_num_ctor;
-extern atomic<uint64> g_num_closure;
-extern atomic<uint64> g_num_string;
-extern atomic<uint64> g_num_array;
-extern atomic<uint64> g_num_thunk;
-extern atomic<uint64> g_num_task;
-extern atomic<uint64> g_num_ext;
-extern atomic<uint64> g_num_st_inc;
-extern atomic<uint64> g_num_mt_inc;
-extern atomic<uint64> g_num_st_dec;
-extern atomic<uint64> g_num_mt_dec;
-extern atomic<uint64> g_num_del;
+#define LEAN_RUNTIME_STAT_CODE(c) lean_ ## c
+extern atomic_uint_least64_t lean_g_num_ctor;
+extern atomic_uint_least64_t lean_g_num_closure;
+extern atomic_uint_least64_t lean_g_num_string;
+extern atomic_uint_least64_t lean_g_num_array;
+extern atomic_uint_least64_t lean_g_num_thunk;
+extern atomic_uint_least64_t lean_g_num_task;
+extern atomic_uint_least64_t lean_g_num_ext;
+extern atomic_uint_least64_t lean_g_num_st_inc;
+extern atomic_uint_least64_t lean_g_num_mt_inc;
+extern atomic_uint_least64_t lean_g_num_st_dec;
+extern atomic_uint_least64_t lean_g_num_mt_dec;
+extern atomic_uint_least64_t lean_g_num_del;
 #else
 #define LEAN_RUNTIME_STAT_CODE(c)
 #endif
+
+enum lean_object_kind { LeanConstructor, LeanClosure, LeanArray, LeanScalarArray,
+                        LeanString, LeanMPZ, LeanThunk, LeanTask, LeanRef, LeanExternal };
+
+typedef enum lean_object_kind lean_object_kind;
 
 /* Objects can be stored in 5 different kinds of memory:
    - `MTHeap`: multi-threaded heap, the reference counter (RC) is updated using atomic operations.
@@ -61,27 +75,113 @@ extern atomic<uint64> g_num_del;
    - `Region`: object does not have a RC, and is stored in a compacted region.
       All objects reachable from an object in a compacted region are also in the same compacted region.
 */
-enum class object_memory_kind { MTHeap = 0, STHeap, Persistent, Stack, Region };
+enum lean_object_memory_kind { LeanMTHeap = 0, LeanSTHeap, LeanPersistent, LeanStack, LeanRegion };
 
-enum class object_kind { Constructor, Closure, Array, ScalarArray,
-                         String, MPZ, Thunk, Task, Ref, External };
+typedef enum lean_object_memory_kind lean_object_memory_kind;
 
 /* Objects are initially allocated as STHeap. When we create a task, we change it to MTHeap. */
-constexpr object_memory_kind c_init_mem_kind = object_memory_kind::STHeap;
+const lean_object_memory_kind lean_c_init_mem_kind = LeanSTHeap;
 
 /* The reference counter is a uintptr_t, because at deletion time, we use this field to implement
    a linked list of objects to be deleted. */
-typedef uintptr_t rc_type;
+typedef uintptr_t lean_rc_type;
 
 /* Base class for all runtime objects.
 
    \remark If m_mem_kind == STHeap/MTHeap, then we store the reference counter before the object. */
-struct object {
+struct lean_object {
     unsigned        m_kind:8;
     unsigned        m_mem_kind:8;
-    object(object_kind k, object_memory_kind m = c_init_mem_kind):
+
+#ifdef __cplusplus
+    lean_object(lean_object_kind k, lean_object_memory_kind m = lean_c_init_mem_kind):
         m_kind(static_cast<unsigned>(k)), m_mem_kind(static_cast<unsigned>(m)) {}
+#endif
 };
+
+typedef struct lean_object lean_object;
+
+inline bool lean_is_null(lean_object * o) { return o == 0; }
+inline bool lean_is_scalar(lean_object * o) { return ((size_t)o & 1) == 1; }
+
+inline lean_object * lean_box(size_t n) { return (lean_object*)((n << 1) | 1); }
+inline size_t lean_unbox(lean_object * o)    { return (size_t)(o) >> 1; }
+
+/* Generic Lean object delete operation.
+
+   The generic delete must be used when we are compiling:
+   1- Polymorphic code.
+   2- Code using `any` type.
+      The `any` type is introduced when we translate Lean expression into the Core language based on System-F.
+
+   We are planning to generate delete operations for non-polymorphic code.
+   They can be faster because:
+   1- They do not need to test whether nested pointers are boxed scalars or not.
+   2- They do not need to test the kind.
+   3- They can unfold the loop that decrements the reference counters for nested objects.
+
+   \pre !is_scalar(o); */
+void lean_del(lean_object * o);
+
+inline bool lean_is_mt_heap_obj(lean_object * o) {
+#ifdef LEAN_MULTI_THREAD
+    return o->m_mem_kind == (unsigned) LeanMTHeap;
+#else
+    return false;
+#endif
+}
+
+static
+inline bool lean_is_st_heap_obj(lean_object * o) { return o->m_mem_kind == (unsigned) LeanSTHeap; }
+
+
+static
+inline lean_rc_type * lean_st_rc_addr(lean_object * o) {
+    return (lean_rc_type*) o - 1;
+}
+
+inline LEAN_ATOMIC(lean_rc_type)* lean_mt_rc_addr(lean_object* o) {
+    return (LEAN_ATOMIC(lean_rc_type)*) o - 1;
+}
+
+static
+inline lean_rc_type lean_get_rc(lean_object * o) {
+    lean_assert(!lean_is_scalar(o));
+    if (LEAN_LIKELY(lean_is_st_heap_obj(o))) {
+        return *lean_st_rc_addr(o);
+    } else {
+        lean_assert(lean_is_mt_heap_obj(o));
+        return atomic_load_explicit(lean_mt_rc_addr(o), LEAN_MEMORY_ORDER_ACQUIRE);
+    }
+}
+
+inline bool lean_dec_ref_core(lean_object * o) {
+    if (LEAN_LIKELY(lean_is_st_heap_obj(o))) {
+        lean_assert(lean_get_rc(o) > 0);
+        LEAN_RUNTIME_STAT_CODE(g_num_st_dec++);
+        (*lean_st_rc_addr(o))--;
+        return *lean_st_rc_addr(o) == 0;
+    } else if (lean_is_mt_heap_obj(o)) {
+        lean_assert(lean_get_rc(o) > 0);
+        LEAN_RUNTIME_STAT_CODE(g_num_mt_dec++);
+        return atomic_fetch_sub_explicit(lean_mt_rc_addr(o), (lean_rc_type) 1, LEAN_MEMORY_ORDER_ACQ_REL) == 1;
+    } else {
+        return false;
+    }
+}
+
+inline void lean_dec_ref(lean_object * o) { if (lean_dec_ref_core(o)) lean_del(o); }
+inline void lean_dec(lean_object * o) { if (!lean_is_scalar(o)) lean_dec_ref(o); }
+
+/* Mark all objects reachable from `o` as persistent */
+void lean_mark_persistent(lean_object * o);
+
+// =======================================
+// Testers
+
+inline lean_object_kind lean_get_kind(lean_object * o) { return (lean_object_kind)(o->m_kind); }
+inline bool lean_is_cnstr(lean_object * o) { return lean_get_kind(o) == LeanConstructor; }
+
 
 /* We can represent inductive datatypes that have:
    1) At most 2^16 constructors
@@ -91,13 +191,103 @@ struct object {
    We only need m_scalar_size for implementing sanity checks at runtime.
 
    Header size: 12 bytes in 32 bit machines and 16 bytes in 64 bit machines. */
-struct constructor_object : public object {
+struct lean_constructor_object {
+    unsigned        m_kind:8;
+    unsigned        m_mem_kind:8;
+
     unsigned short m_tag;
     unsigned short m_num_objs;
     unsigned short m_scalar_size;
-    constructor_object(unsigned tag, unsigned num_objs, unsigned scalar_sz, object_memory_kind m = c_init_mem_kind):
-        object(object_kind::Constructor, m), m_tag(tag), m_num_objs(num_objs), m_scalar_size(scalar_sz) {}
+
+#ifdef __cplusplus
+    lean_constructor_object(unsigned tag, unsigned num_objs, unsigned scalar_sz,
+                            lean_object_memory_kind m = lean_c_init_mem_kind):
+        m_kind(static_cast<unsigned>(LeanConstructor)),
+        m_mem_kind(static_cast<unsigned>(m)),
+        m_tag(tag), m_num_objs(num_objs), m_scalar_size(scalar_sz) {}
+#endif
 };
+
+typedef struct lean_constructor_object lean_constructor_object;
+
+inline lean_constructor_object* lean_to_cnstr(lean_object * o) { lean_assert(lean_is_cnstr(o)); return (lean_constructor_object*)(o); }
+
+// =======================================
+// Constructor auxiliary functions
+
+inline unsigned lean_cnstr_num_objs(lean_object * o) { return lean_to_cnstr(o)->m_num_objs; }
+inline unsigned lean_cnstr_scalar_size(lean_object * o) { return lean_to_cnstr(o)->m_scalar_size; }
+inline size_t lean_cnstr_byte_size(unsigned num_objs, unsigned scalar_sz) {
+    return sizeof(lean_constructor_object) + num_objs*sizeof(lean_object*) + scalar_sz;
+} // NOLINT
+
+typedef struct lean_object lean_object;
+
+/* The following typedef's are used to document the calling convention for the primitives. */
+typedef lean_object * lean_obj_arg;   /* Standard object argument. */
+typedef lean_object * lean_b_obj_arg; /* Borrowed object argument. */
+typedef lean_object * lean_u_obj_arg; /* Unique (aka non shared) object argument. */
+typedef lean_object * lean_obj_res;   /* Standard object result. */
+typedef lean_object * lean_b_obj_res; /* Borrowed object result. */
+
+void* lean_alloc_heap_object(size_t sz);
+
+#if defined(LEAN_SMALL_ALLOCATOR) && !defined(LEAN_LAZY_RC)
+inline void * lean_alloc_small_heap_object(size_t sz) {
+    void* r = lean_alloc_small(sizeof(lean_rc_type) + sz);
+    *((lean_rc_type*)(r)) = 1;
+    return ((char*)(r)) + sizeof(lean_rc_type);
+}
+#else
+inline void *lean_alloc_small_heap_object(size_t sz) {
+    return lean_alloc_heap_object(sz);
+}
+#endif
+
+LEAN_EXTERN_END
+
+#ifdef __cplusplus
+
+static_assert(sizeof(_Atomic(lean_rc_type)) == sizeof(lean_rc_type),  "_Atomic(lean_rc_type) and lean_rc_type must have the same size"); // NOLINT
+static_assert(sizeof(lean::atomic<lean_rc_type>) == sizeof(lean_rc_type),  "lean::atomic<lean_rc_type> and lean_rc_type must have the same size"); // NOLINT
+
+namespace lean {
+typedef unsigned char      uint8;
+typedef unsigned short     uint16;
+typedef unsigned           uint32;
+typedef unsigned long long uint64;
+typedef size_t             usize;
+
+namespace object_kind {
+
+constexpr lean_object_kind Constructor  = LeanConstructor;
+constexpr lean_object_kind Closure      = LeanClosure;
+constexpr lean_object_kind Array        = LeanArray;
+constexpr lean_object_kind ScalarArray  = LeanScalarArray;
+constexpr lean_object_kind String       = LeanString;
+constexpr lean_object_kind MPZ          = LeanMPZ;
+constexpr lean_object_kind Thunk        = LeanThunk;
+constexpr lean_object_kind Task         = LeanTask;
+constexpr lean_object_kind Ref          = LeanRef;
+constexpr lean_object_kind External     = LeanExternal;
+
+}
+
+namespace object_memory_kind {
+
+constexpr lean_object_memory_kind MTHeap     = LeanMTHeap;
+constexpr lean_object_memory_kind STHeap     = LeanSTHeap;
+constexpr lean_object_memory_kind Persistent = LeanPersistent;
+constexpr lean_object_memory_kind Stack      = LeanStack;
+constexpr lean_object_memory_kind Region     = LeanRegion;
+
+}
+
+constexpr lean_object_memory_kind c_init_mem_kind = lean_c_init_mem_kind;
+
+using rc_type = lean_rc_type;
+
+using constructor_object = lean_constructor_object;
 
 /*
 In our runtime, a Lean function consume the reference counter (RC) of its argument or not.
@@ -125,18 +315,18 @@ Functions stored in closures use the "standard" calling convention.
 */
 
 /* The following typedef's are used to document the calling convention for the primitives. */
-typedef object * obj_arg;   /* Standard object argument. */
-typedef object * b_obj_arg; /* Borrowed object argument. */
-typedef object * u_obj_arg; /* Unique (aka non shared) object argument. */
-typedef object * obj_res;   /* Standard object result. */
-typedef object * b_obj_res; /* Borrowed object result. */
+using obj_arg = lean_obj_arg;   /* Standard object argument. */
+using b_obj_arg = lean_b_obj_arg; /* Borrowed object argument. */
+using u_obj_arg = lean_u_obj_arg; /* Unique (aka non shared) object argument. */
+using obj_res = lean_obj_res;   /* Standard object result. */
+using b_obj_res = lean_b_obj_res; /* Borrowed object result. */
 
 /* Array of objects.
    Header size: 16 bytes in 32 bit machines and 32 bytes in 64 bit machines. */
 struct array_object : public object {
     size_t   m_size;
     size_t   m_capacity;
-    array_object(size_t sz, size_t c, object_memory_kind m = c_init_mem_kind):
+    array_object(size_t sz, size_t c, lean_object_memory_kind m = c_init_mem_kind):
         object(object_kind::Array, m), m_size(sz), m_capacity(c) {}
 };
 
@@ -149,7 +339,7 @@ struct sarray_object : public object {
     unsigned m_elem_size:16; // in bytes
     size_t   m_size;
     size_t   m_capacity;
-    sarray_object(unsigned esz, size_t sz, size_t c, object_memory_kind m = c_init_mem_kind):
+    sarray_object(unsigned esz, size_t sz, size_t c, lean_object_memory_kind m = c_init_mem_kind):
         object(object_kind::ScalarArray, m), m_elem_size(esz), m_size(sz), m_capacity(c) {}
 };
 
@@ -157,7 +347,7 @@ struct string_object : public object {
     size_t m_size;
     size_t m_capacity;
     size_t m_length;   // UTF8 length
-    string_object(size_t sz, size_t c, size_t len, object_memory_kind m = c_init_mem_kind):
+    string_object(size_t sz, size_t c, size_t len, lean_object_memory_kind m = c_init_mem_kind):
         object(object_kind::String, m), m_size(sz), m_capacity(c), m_length(len) {}
 };
 
@@ -174,19 +364,19 @@ struct closure_object : public object {
     unsigned  m_arity:16;     // number of arguments expected by m_fun.
     unsigned  m_num_fixed:16; // number of arguments that have been already fixed.
     void *    m_fun;
-    closure_object(void * f, unsigned arity, unsigned n, object_memory_kind m = c_init_mem_kind):
+    closure_object(void * f, unsigned arity, unsigned n, lean_object_memory_kind m = c_init_mem_kind):
         object(object_kind::Closure, m), m_arity(arity), m_num_fixed(n), m_fun(f) {}
 };
 
 struct mpz_object : public object {
     mpz m_value;
-    mpz_object(mpz const & v, object_memory_kind m = c_init_mem_kind):
+    mpz_object(mpz const & v, lean_object_memory_kind m = c_init_mem_kind):
         object(object_kind::MPZ, m), m_value(v) {}
 };
 
 struct ref_object : public object {
     object * m_value;
-    ref_object(object * v, object_memory_kind m = c_init_mem_kind):
+    ref_object(object * v, lean_object_memory_kind m = c_init_mem_kind):
         object(object_kind::Ref, m), m_value(v) {
     };
 };
@@ -194,7 +384,7 @@ struct ref_object : public object {
 struct thunk_object : public object {
     atomic<object *> m_value;
     atomic<object *> m_closure;
-    thunk_object(object * c, bool is_value = false, object_memory_kind m = c_init_mem_kind);
+    thunk_object(object * c, bool is_value = false, lean_object_memory_kind m = c_init_mem_kind);
 };
 
 struct task_object : public object {
@@ -225,16 +415,17 @@ external_object_class * register_external_object_class(external_object_finalize_
 struct external_object : public object {
     external_object_class * m_class;
     void *                  m_data;
-    explicit external_object(external_object_class * cls, void * data, object_memory_kind m = c_init_mem_kind):
+    explicit external_object(external_object_class * cls, void * data, lean_object_memory_kind m = c_init_mem_kind):
         object(object_kind::External, m), m_class(cls), m_data(data) {}
 };
 
 static_assert(sizeof(size_t) == sizeof(void*), "runtime assumes that size_t and void* have the same size, we do not plan to support old platforms where this is not true");
 
-inline bool is_null(object * o) { return o == nullptr; }
-inline bool is_scalar(object * o) { return (reinterpret_cast<size_t>(o) & 1) == 1; }
-inline object * box(size_t n) { return reinterpret_cast<object*>((static_cast<size_t>(n) << 1) | 1); }
-inline size_t unbox(object * o) { return reinterpret_cast<size_t>(o) >> 1; }
+inline bool is_null(object * o) { return lean_is_null(o); }
+inline bool is_scalar(object * o) { return lean_is_scalar(o); }
+
+inline object * box(size_t n) { return lean_box(n); }
+inline size_t unbox(object * o) { return lean_unbox(o); }
 
 /* Generic Lean object delete operation.
 
@@ -250,60 +441,45 @@ inline size_t unbox(object * o) { return reinterpret_cast<size_t>(o) >> 1; }
    3- They can unfold the loop that decrements the reference counters for nested objects.
 
    \pre !is_scalar(o); */
-void del(object * o);
+static inline
+void del(object * o) { return lean_del(o); }
 
-static_assert(sizeof(atomic<rc_type>) == sizeof(rc_type),  "atomic<rc_type> and rc_type must have the same size"); // NOLINT
+inline void * alloc_heap_object(size_t sz) {
+    return lean_alloc_heap_object(sz);
+}
 
-void * alloc_heap_object(size_t sz);
+inline void * alloc_small_heap_object(size_t sz) {
+    return lean_alloc_small_heap_object(sz);
+}
+
 void free_heap_obj(object * o);
 void free_mpz_obj(object * o);
 void free_closure_obj(object * o);
-#if defined(LEAN_SMALL_ALLOCATOR) && !defined(LEAN_LAZY_RC)
-inline void * alloc_small_heap_object(size_t sz) {
-    void * r = alloc_small(sizeof(rc_type) + sz);
-    *static_cast<rc_type *>(r) = 1;
-    return static_cast<char *>(r) + sizeof(rc_type);
-}
-#else
-inline void * alloc_small_heap_object(size_t sz) {
-    return alloc_heap_object(sz);
-}
-#endif
 
-inline atomic<rc_type> * mt_rc_addr(object * o) {
-    return reinterpret_cast<atomic<rc_type> *>(reinterpret_cast<char *>(o) - sizeof(rc_type));
+inline LEAN_ATOMIC(lean_rc_type)* mt_rc_addr(object * o) {
+    return lean_mt_rc_addr(o);
 }
 
 inline rc_type * st_rc_addr(object * o) {
-    return reinterpret_cast<rc_type *>(reinterpret_cast<char *>(o) - sizeof(rc_type));
+    return lean_st_rc_addr(o);
 }
 
 inline rc_type & st_rc_ref(object * o) {
-    return *st_rc_addr(o);
+    return *lean_st_rc_addr(o);
 }
 
 inline bool is_mt_heap_obj(object * o) {
-#ifdef LEAN_MULTI_THREAD
-    return o->m_mem_kind == static_cast<unsigned>(object_memory_kind::MTHeap);
-#else
-    return false;
-#endif
+    return lean_is_mt_heap_obj(o);
 }
-inline bool is_st_heap_obj(object * o) { return o->m_mem_kind == static_cast<unsigned>(object_memory_kind::STHeap); }
-inline bool is_heap_obj(object * o) { return is_st_heap_obj(o) || is_mt_heap_obj(o); }
+inline bool is_st_heap_obj(object * o) { return lean_is_st_heap_obj(o); }
+inline bool is_heap_obj(object * o) { return is_st_heap_obj(o) || lean_is_mt_heap_obj(o); }
 void mark_mt(object * o);
 
 inline rc_type get_rc(object * o) {
-    lean_assert(!is_scalar(o));
-    if (LEAN_LIKELY(is_st_heap_obj(o))) {
-        return st_rc_ref(o);
-    } else {
-        lean_assert(is_mt_heap_obj(o));
-        return atomic_load_explicit(mt_rc_addr(o), memory_order_acquire);
-    }
+    return lean_get_rc(o);
 }
 
-inline bool is_shared(object * o) { return get_rc(o) > 1; }
+inline bool is_shared(object * o) { return lean_get_rc(o) > 1; }
 inline bool is_exclusive(object * o) { return is_heap_obj(o) && !is_shared(o); }
 
 inline void inc_ref(object * o) {
@@ -333,35 +509,19 @@ inline void dec_shared_ref(object * o) {
         st_rc_ref(o)--;
     } else if (is_mt_heap_obj(o)) {
         LEAN_RUNTIME_STAT_CODE(g_num_mt_dec++);
-        atomic_fetch_sub_explicit(mt_rc_addr(o), static_cast<rc_type>(1), memory_order_acq_rel);
+        atomic_fetch_sub_explicit(mt_rc_addr(o), static_cast<rc_type>(1), LEAN_MEMORY_ORDER_ACQ_REL);
     }
 }
 
-inline bool dec_ref_core(object * o) {
-    if (LEAN_LIKELY(is_st_heap_obj(o))) {
-        lean_assert(get_rc(o) > 0);
-        LEAN_RUNTIME_STAT_CODE(g_num_st_dec++);
-        st_rc_ref(o)--;
-        return st_rc_ref(o) == 0;
-    } else if (is_mt_heap_obj(o)) {
-        lean_assert(get_rc(o) > 0);
-        LEAN_RUNTIME_STAT_CODE(g_num_mt_dec++);
-        return atomic_fetch_sub_explicit(mt_rc_addr(o), static_cast<rc_type>(1), memory_order_acq_rel) == 1;
-    } else {
-        return false;
-    }
-}
+inline bool dec_ref_core(lean_object * o) { return lean_dec_ref_core(o); }
+inline void dec_ref(object * o) { lean_dec_ref(o); }
+inline void dec(object * o) { lean_dec(o); }
 
-inline void dec_ref(object * o) { if (dec_ref_core(o)) del(o); }
 inline void inc(object * o) { if (!is_scalar(o)) inc_ref(o); }
 inline void inc(object * o, rc_type n) { if (!is_scalar(o)) inc_ref(o, n); }
-inline void dec(object * o) { if (!is_scalar(o)) dec_ref(o); }
 
-// =======================================
-// Testers
-
-inline object_kind get_kind(object * o) { return static_cast<object_kind>(o->m_kind); }
-inline bool is_cnstr(object * o) { return get_kind(o) == object_kind::Constructor; }
+inline lean_object_kind get_kind(object * o) { return lean_get_kind(o); }
+inline bool is_cnstr(object * o) { return lean_is_cnstr(o); }
 inline bool is_closure(object * o) { return get_kind(o) == object_kind::Closure; }
 inline bool is_array(object * o) { return get_kind(o) == object_kind::Array; }
 inline bool is_sarray(object * o) { return get_kind(o) == object_kind::ScalarArray; }
@@ -375,7 +535,7 @@ inline bool is_ref(object * o) { return get_kind(o) == object_kind::Ref; }
 // =======================================
 // Casting
 
-inline constructor_object * to_cnstr(object * o) { lean_assert(is_cnstr(o)); return static_cast<constructor_object*>(o); }
+inline constructor_object * to_cnstr(object * o) { return lean_to_cnstr(o); }
 inline closure_object * to_closure(object * o) { lean_assert(is_closure(o)); return static_cast<closure_object*>(o); }
 inline array_object * to_array(object * o) { lean_assert(is_array(o)); return static_cast<array_object*>(o); }
 inline sarray_object * to_sarray(object * o) { lean_assert(is_sarray(o)); return static_cast<sarray_object*>(o); }
@@ -432,14 +592,16 @@ inline void obj_set_data(object * o, size_t offset, T v) {
 }
 
 /* Mark all objects reachable from `o` as persistent */
-void mark_persistent(object * o);
+inline void mark_persistent(object * o) { lean_mark_persistent(o); }
 
 // =======================================
 // Constructor auxiliary functions
 
-inline unsigned cnstr_num_objs(object * o) { return to_cnstr(o)->m_num_objs; }
-inline unsigned cnstr_scalar_size(object * o) { return to_cnstr(o)->m_scalar_size; }
-inline size_t cnstr_byte_size(unsigned num_objs, unsigned scalar_sz) { return sizeof(constructor_object) + num_objs*sizeof(object*) + scalar_sz; } // NOLINT
+inline unsigned cnstr_num_objs(object * o) { return lean_cnstr_num_objs(o); }
+inline unsigned cnstr_scalar_size(object * o) { return lean_cnstr_scalar_size(o); }
+inline size_t cnstr_byte_size(unsigned num_objs, unsigned scalar_sz) {
+    return lean_cnstr_byte_size(num_objs, scalar_sz);
+}
 inline size_t cnstr_byte_size(object * o) { return cnstr_byte_size(cnstr_num_objs(o), cnstr_scalar_size(o)); }
 inline object ** cnstr_obj_cptr(object * o) {
     lean_assert(is_cnstr(o));
@@ -466,7 +628,7 @@ inline object ** closure_arg_cptr(object * o) {
 // =======================================
 // Thunk auxiliary functions
 
-inline thunk_object::thunk_object(object * c, bool is_value, object_memory_kind m):
+inline thunk_object::thunk_object(object * c, bool is_value, lean_object_memory_kind m):
     object(object_kind::Thunk, m) {
     if (is_value) {
         m_closure = nullptr;
@@ -565,26 +727,96 @@ bool int_big_eq(object * a1, object * a2);
 bool int_big_le(object * a1, object * a2);
 bool int_big_lt(object * a1, object * a2);
 
+}
+#endif // __cplusplus
+
+LEAN_EXTERN_BEGIN
+
+// =======================================
+// Constructor objects
+inline lean_obj_res lean_alloc_cnstr(unsigned tag, unsigned num_objs, unsigned scalar_sz) {
+    LEAN_RUNTIME_STAT_CODE(g_num_ctor++);
+    lean_assert(tag < 65536 && num_objs < 65536 && scalar_sz < 65536);
+    size_t sz = lean_cnstr_byte_size(num_objs, scalar_sz);
+    lean_constructor_object* r = (lean_constructor_object*) lean_alloc_small_heap_object(sz);
+    r->m_kind = (unsigned)(LeanConstructor);
+    r->m_mem_kind = (unsigned)(lean_c_init_mem_kind);
+    r->m_tag = tag;
+    r->m_num_objs = num_objs;
+    r->m_scalar_size = scalar_sz;
+    return (lean_obj_res) r;
+}
+
+inline unsigned lean_cnstr_tag(lean_b_obj_arg o) { return lean_to_cnstr(o)->m_tag; }
+inline void lean_cnstr_set_tag(lean_b_obj_arg o, unsigned tag) { lean_to_cnstr(o)->m_tag = tag; }
+
+static
+inline void* lean_cnstr_data(lean_b_obj_arg o) {
+    lean_assert(is_cnstr(o));
+    return (char*)(o) + sizeof(lean_constructor_object);
+}
+
+static inline
+void* lean_cnstr_data_off(lean_b_obj_arg o, size_t offset, __attribute__ ((unused)) size_t sz) {
+    lean_assert(offset + sz <= sizeof(lean_object*) * lean_cnstr_num_objs(o) + lean_cnstr_scalar_size(o));
+    return (void*)((char *) o + sizeof(lean_constructor_object) + offset);
+}
+
+/* Access constructor object field `i` */
+inline lean_b_obj_res lean_cnstr_get(lean_b_obj_arg o, unsigned i) {
+    lean_assert(i < lean::cnstr_num_objs(o));
+    lean_object** data = (lean_object**) lean_cnstr_data(o);
+    return data[i];
+}
+
+/* Update constructor field `i` */
+inline void lean_cnstr_set(lean_u_obj_arg o, unsigned i, lean_obj_arg v) {
+    lean_assert(!lean_is_heap_obj(o) || !lean_is_shared(o));
+    lean_assert(i < lean_cnstr_num_objs(o));
+    lean_object** data = (lean_object**) lean_cnstr_data(o);
+    data[i] = v;
+}
+
+/* Release field `i`, that is, decrement its reference counter, and then set it to box(0) */
+inline void lean_cnstr_release(lean_u_obj_arg o, unsigned i) {
+    lean_assert(!lean_is_heap_obj(o) || !lean_is_shared(o));
+    lean_assert(i < lean_cnstr_num_objs(o));
+    lean_object** data = (lean_object**) lean_cnstr_data(o);
+    lean_object** field_ptr = data + i;
+    lean_dec(*field_ptr);
+    *field_ptr = lean_box(0);
+}
+
+
+/* Access scalar data at the given offset. */
+inline size_t lean_cnstr_get_usize(lean_b_obj_arg o, size_t offset) {
+    return *((size_t*) lean_cnstr_data_off(o, offset, sizeof(size_t)));
+}
+
+
+LEAN_EXTERN_END
+#ifdef __cplusplus
+namespace lean {
+
 // =======================================
 // Constructor objects
 inline obj_res alloc_cnstr(unsigned tag, unsigned num_objs, unsigned scalar_sz) {
-    LEAN_RUNTIME_STAT_CODE(g_num_ctor++);
-    lean_assert(tag < 65536 && num_objs < 65536 && scalar_sz < 65536);
-    return new (alloc_small_heap_object(cnstr_byte_size(num_objs, scalar_sz))) constructor_object(tag, num_objs, scalar_sz); // NOLINT
+    return lean_alloc_cnstr(tag, num_objs, scalar_sz);
 }
-inline unsigned cnstr_tag(b_obj_arg o) { return to_cnstr(o)->m_tag; }
-inline void cnstr_set_tag(b_obj_arg o, unsigned tag) { to_cnstr(o)->m_tag = tag; }
+
+inline unsigned cnstr_tag(b_obj_arg o) { return lean_cnstr_tag(o); }
+inline void cnstr_set_tag(b_obj_arg o, unsigned tag) { lean_cnstr_set_tag(o, tag); }
+
 /* Access constructor object field `i` */
 inline b_obj_res cnstr_get(b_obj_arg o, unsigned i) {
-    lean_assert(i < cnstr_num_objs(o));
-    return obj_data<object*>(o, sizeof(constructor_object) + sizeof(object*)*i); // NOLINT
+    return lean_cnstr_get(o, i);
 }
+
 /* Update constructor field `i` */
 inline void cnstr_set(u_obj_arg o, unsigned i, obj_arg v) {
-    lean_assert(!is_heap_obj(o) || !is_shared(o));
-    lean_assert(i < cnstr_num_objs(o));
-    obj_set_data(o, sizeof(constructor_object) + sizeof(object*)*i, v); // NOLINT
+    lean_cnstr_set(o, i, v);
 }
+
 /* Release field `i`, that is, decrement its reference counter, and then set it to box(0) */
 inline void cnstr_release(u_obj_arg o, unsigned i) {
     lean_assert(!is_heap_obj(o) || !is_shared(o));
@@ -593,10 +825,13 @@ inline void cnstr_release(u_obj_arg o, unsigned i) {
     dec(*field_ptr);
     *field_ptr = box(0);
 }
+
+
 /* Access scalar data at the given offset. */
 template<typename T> inline T cnstr_get_scalar(b_obj_arg o, size_t offset) {
     return obj_data<T>(o, sizeof(constructor_object) + offset);
 }
+
 template<typename T> inline void cnstr_set_scalar(b_obj_arg o, unsigned i, T v) {
     obj_set_data(o, sizeof(constructor_object) + i, v);
 }
@@ -732,15 +967,31 @@ inline obj_res thunk_get_own(b_obj_arg t) {
 obj_res thunk_map(obj_arg f, obj_arg t);
 obj_res thunk_bind(obj_arg x, obj_arg f);
 
+}
+#endif // __cplusplus
+
 // =======================================
 // Tasks
 
+LEAN_EXTERN_BEGIN
+void lean_alloc_global_task_manager(unsigned num_workers);
+
+void lean_dealloc_global_task_manager();
+
+LEAN_EXTERN_END
+
+#ifdef __cplusplus
+namespace lean {
 /* If num_workers == 0, then tasks primitives will just create thunks.
    It must not be used if task objects have already been created. */
 class scoped_task_manager {
 public:
-    scoped_task_manager(unsigned num_workers);
-    ~scoped_task_manager();
+    scoped_task_manager(unsigned num_workers) {
+        lean_alloc_global_task_manager(num_workers);
+    }
+    ~scoped_task_manager() {
+        lean_dealloc_global_task_manager();
+    }
 };
 
 /* Convert a closure (unit -> A) into a task A */
@@ -1463,20 +1714,47 @@ object * dbg_trace(obj_arg s, obj_arg fn);
 object * dbg_sleep(uint32 ms, obj_arg fn);
 object * dbg_trace_if_shared(obj_arg s, obj_arg a);
 
+} // namespace lean
+#endif // __cplusplus
+
 // =======================================
 // IO helper functions
-inline obj_res io_mk_world() {
-    object * r = alloc_cnstr(0, 2, 0);
-    cnstr_set(r, 0, box(0));
-    cnstr_set(r, 1, box(0));
+
+LEAN_EXTERN_BEGIN
+
+inline lean_obj_res lean_io_mk_world() {
+    lean_object * r = lean_alloc_cnstr(0, 2, 0);
+    lean_cnstr_set(r, 0, lean_box(0));
+    lean_cnstr_set(r, 1, lean_box(0));
     return r;
 }
-inline bool io_result_is_ok(b_obj_arg r) { return cnstr_tag(r) == 0; }
-inline bool io_result_is_error(b_obj_arg r) { return cnstr_tag(r) == 1; }
-inline b_obj_res io_result_get_value(b_obj_arg r) { lean_assert(io_result_is_ok(r)); return cnstr_get(r, 0); }
-inline b_obj_res io_result_get_error(b_obj_arg r) { lean_assert(io_result_is_error(r)); return cnstr_get(r, 0); }
-void io_result_show_error(b_obj_arg r);
-void io_mark_end_initialization();
+
+inline bool lean_io_result_is_ok(lean_b_obj_arg r) { return lean_cnstr_tag(r) == 0; }
+inline bool lean_io_result_is_error(lean_b_obj_arg r) { return lean_cnstr_tag(r) == 1; }
+inline lean_b_obj_res lean_io_result_get_value(lean_b_obj_arg r) { lean_assert(lean_io_result_is_ok(r)); return lean_cnstr_get(r, 0); }
+inline lean_b_obj_res lean_io_result_get_error(lean_b_obj_arg r) { lean_assert(lean_io_result_is_error(r)); return lean_cnstr_get(r, 0); }
+void lean_io_result_show_error(lean_b_obj_arg r);
+
+void lean_io_mark_end_initialization();
+
+LEAN_EXTERN_END
+#ifdef __cplusplus
+
+inline bool io_result_is_ok(lean::b_obj_arg r) { return lean_io_result_is_ok(r); }
+inline bool io_result_is_error(lean::b_obj_arg r) { return lean_io_result_is_error(r); }
+inline lean::b_obj_res io_result_get_value(lean::b_obj_arg r) { return lean_io_result_get_value(r); }
+inline lean::b_obj_res io_result_get_error(lean::b_obj_arg r) { return lean_io_result_get_error(r); }
+
+namespace lean {
+
+inline obj_res io_mk_world() {
+    return lean_io_mk_world();
+}
+
+
+inline void io_result_show_error(b_obj_arg r) { lean_io_result_show_error(r); }
+
+inline void io_mark_end_initialization() { lean_io_mark_end_initialization(); }
 
 // =======================================
 // IO ref primitives
@@ -1490,4 +1768,5 @@ obj_res io_ref_swap(b_obj_arg, obj_arg, obj_arg);
 // Module initialization/finalization
 void initialize_object();
 void finalize_object();
-}
+} // namespace lean
+#endif // __cplusplus

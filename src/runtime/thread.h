@@ -5,6 +5,20 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Author: Leonardo de Moura
 */
 #pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/** Return number of hardware threads. */
+unsigned lean_hardware_concurrency();
+
+#ifdef __cplusplus
+}
+#endif
+
+#ifdef __cplusplus
+
 #include <iostream>
 #include <chrono>
 #include <functional>
@@ -15,7 +29,7 @@ Author: Leonardo de Moura
 
 namespace lean {
 namespace chrono = std::chrono;
-};
+}
 
 #if defined(LEAN_MULTI_THREAD)
 #include <thread>
@@ -47,7 +61,9 @@ using std::memory_order_acq_rel;
 using std::memory_order_seq_cst;
 using std::atomic_thread_fence;
 namespace this_thread = std::this_thread;
-inline unsigned hardware_concurrency() { return std::thread::hardware_concurrency(); }
+
+inline unsigned hardware_concurrency() { return lean_hardware_concurrency(); }
+
 /** Simple thread class that allows us to set the thread stack size.
     We implement it using pthreads on OSX/Linux and WinThreads on Windows. */
 class lthread {
@@ -175,6 +191,9 @@ inline unsigned hardware_concurrency() { return 1; }
 }
 #endif
 
+#endif // __cplusplus
+
+
 #ifdef _MSC_VER
 #define LEAN_THREAD_PTR(T, V) static __declspec(thread) T * V = nullptr
 #define LEAN_THREAD_EXTERN_PTR(T, V) extern __declspec(thread) T * V
@@ -186,6 +205,8 @@ inline unsigned hardware_concurrency() { return 1; }
 #define LEAN_THREAD_GLOBAL_PTR(T, V) __thread T * V = nullptr
 #define LEAN_THREAD_VALUE(T, V, VAL) static __thread T V = VAL
 #endif
+
+#ifdef __cplusplus
 
 #define MK_THREAD_LOCAL_GET(T, GETTER_NAME, DEF_VALUE)                  \
 LEAN_THREAD_PTR(T, GETTER_NAME ## _tlocal);                             \
@@ -247,3 +268,5 @@ void register_thread_local_reset_fn(std::function<void()> fn);
    and before executing a task. */
 void reset_thread_local();
 }
+
+#endif // __cplusplus

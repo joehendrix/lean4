@@ -21,35 +21,49 @@ obj* l_mkBinomialHeap___boxed(obj*, obj*);
 obj* l_BinomialHeap_singleton___rarg(obj*);
 obj* l_BinomialHeap_isEmpty___boxed(obj*, obj*);
 obj* l_BinomialHeapImp_toList___rarg(obj*, obj*);
+obj* l_BinomialHeapImp_tail___main___rarg(obj*, obj*);
+obj* l_BinomialHeapImp_isEmpty___main(obj*);
 obj* l_BinomialHeapImp_headOpt(obj*);
+obj* l_BinomialHeapImp_isEmpty___main___rarg___boxed(obj*);
 obj* l_BinomialHeapImp_tail___rarg(obj*, obj*);
+obj* l_BinomialHeapImp_hRank___main___rarg___boxed(obj*);
 obj* l_BinomialHeapImp_combine___rarg(obj*, obj*, obj*);
 obj* l_BinomialHeapImp_tail(obj*);
 obj* l_BinomialHeap_headOpt(obj*);
 obj* l_BinomialHeapImp_headOpt___rarg(obj*, obj*);
+obj* l_BinomialHeap_head___main(obj*);
 obj* l_BinomialHeap_head___rarg___boxed(obj*, obj*, obj*);
+obj* l_BinomialHeap_isEmpty___main___rarg___boxed(obj*);
 obj* l_BinomialHeap_merge(obj*);
 obj* l_BinomialHeapImp_mergeNodes___main___rarg(obj*, obj*, obj*);
 obj* l_BinomialHeapImp_singleton___rarg(obj*);
 uint8 l_BinomialHeap_isEmpty___rarg(obj*);
+obj* l_BinomialHeapImp_headOpt___main___rarg(obj*, obj*);
 obj* l_BinomialHeap_tail___rarg(obj*, obj*);
+obj* l_List_foldl___main___at_BinomialHeapImp_headOpt___main___spec__1___rarg(obj*, obj*, obj*);
 obj* l_BinomialHeapImp_hRank(obj*);
+obj* l_BinomialHeap_merge___main(obj*);
 obj* l_BinomialHeapImp_mergeNodes(obj*);
-obj* l_List_foldl___main___at_BinomialHeapImp_headOpt___spec__1___rarg(obj*, obj*, obj*);
+obj* l_BinomialHeap_head___main___rarg(obj*, obj*, obj*);
+obj* l_BinomialHeapImp_tail___main(obj*);
 obj* l_BinomialHeapImp_findMin___rarg(obj*, obj*, obj*, obj*);
+obj* l_BinomialHeap_tail___main___rarg(obj*, obj*);
 obj* l_BinomialHeapImp_head___rarg(obj*, obj*, obj*);
-obj* l_List_foldl___main___at_BinomialHeapImp_head___spec__1(obj*);
+obj* l_List_foldl___main___at_BinomialHeapImp_headOpt___main___spec__1(obj*);
+obj* l_BinomialHeapImp_head___main___rarg(obj*, obj*, obj*);
+obj* l_BinomialHeapImp_head___main___rarg___boxed(obj*, obj*, obj*);
 obj* l_BinomialHeapImp_singleton(obj*);
 obj* l_BinomialHeap_head___rarg(obj*, obj*, obj*);
 obj* l_BinomialHeap_insert(obj*);
 obj* l_BinomialHeapImp_findMin(obj*);
+obj* l_List_foldl___main___at_BinomialHeapImp_tail___main___spec__2___rarg(obj*, obj*, obj*);
 namespace lean {
 uint8 nat_dec_lt(obj*, obj*);
 }
 obj* l_BinomialHeapImp_mergeNodes___main(obj*);
-obj* l_List_foldl___main___at_BinomialHeapImp_tail___spec__1___rarg(obj*, obj*, obj*);
 obj* l_BinomialHeap_toList(obj*);
 obj* l_List_append___rarg(obj*, obj*);
+obj* l_List_foldl___main___at_BinomialHeapImp_tail___main___spec__1___rarg(obj*, obj*, obj*);
 obj* l_BinomialHeapImp_toList(obj*);
 obj* l_BinomialHeap_empty(obj*, obj*);
 namespace lean {
@@ -60,33 +74,49 @@ namespace lean {
 uint8 nat_dec_eq(obj*, obj*);
 }
 obj* l_BinomialHeap_merge___rarg(obj*, obj*, obj*);
+obj* l_BinomialHeapImp_head___main(obj*);
 uint8 l_BinomialHeapImp_isEmpty___rarg(obj*);
-obj* l_List_foldl___main___at_BinomialHeapImp_tail___spec__2___rarg(obj*, obj*, obj*);
-obj* l_List_foldl___main___at_BinomialHeapImp_tail___spec__1(obj*);
+obj* l_BinomialHeapImp_hRank___main(obj*);
 obj* l_BinomialHeapImp_head(obj*);
 obj* l_BinomialHeap_empty___boxed(obj*, obj*);
 obj* l_BinomialHeapImp_head___rarg___boxed(obj*, obj*, obj*);
 obj* l_BinomialHeap_insert___rarg(obj*, obj*, obj*);
-obj* l_List_foldl___main___at_BinomialHeapImp_tail___spec__2(obj*);
+obj* l_BinomialHeap_toList___main(obj*);
+obj* l_BinomialHeapImp_merge___main___rarg(obj*, obj*, obj*);
+uint8 l_BinomialHeapImp_isEmpty___main___rarg(obj*);
 obj* l_BinomialHeap_isEmpty(obj*, obj*);
+obj* l_BinomialHeap_headOpt___main(obj*);
+obj* l_BinomialHeap_merge___main___rarg(obj*, obj*, obj*);
 obj* l_BinomialHeapImp_merge(obj*);
-obj* l_List_foldl___main___at_BinomialHeapImp_headOpt___spec__1(obj*);
+obj* l_List_foldl___main___at_BinomialHeapImp_tail___main___spec__2(obj*);
 obj* l_BinomialHeapImp_isEmpty(obj*);
 obj* l_BinomialHeap_headOpt___rarg(obj*, obj*);
 obj* l_BinomialHeapImp_hRank___rarg___boxed(obj*);
+obj* l_BinomialHeap_isEmpty___main___boxed(obj*, obj*);
+obj* l_BinomialHeapImp_headOpt___main(obj*);
 obj* l_BinomialHeapImp_toList___main(obj*);
 obj* l_BinomialHeapImp_mergeNodes___rarg(obj*, obj*, obj*);
 obj* l_BinomialHeapImp_combine(obj*);
+obj* l_BinomialHeap_isEmpty___main(obj*, obj*);
+obj* l_BinomialHeapImp_merge___main(obj*);
 obj* l_BinomialHeap_isEmpty___rarg___boxed(obj*);
+uint8 l_BinomialHeap_isEmpty___main___rarg(obj*);
+obj* l_List_foldl___main___at_BinomialHeapImp_head___main___spec__1___rarg(obj*, obj*, obj*);
 obj* l_BinomialHeapImp_findMin___main(obj*);
+obj* l_BinomialHeap_toList___main___rarg(obj*, obj*);
 obj* l_BinomialHeap_head(obj*);
-obj* l_List_foldl___main___at_BinomialHeapImp_head___spec__1___rarg(obj*, obj*, obj*);
+obj* l_BinomialHeap_headOpt___main___rarg(obj*, obj*);
+obj* l_List_foldl___main___at_BinomialHeapImp_head___main___spec__1(obj*);
 obj* l_BinomialHeapImp_isEmpty___rarg___boxed(obj*);
+obj* l_List_foldl___main___at_BinomialHeapImp_tail___main___spec__1(obj*);
 obj* l_BinomialHeap_toList___rarg(obj*, obj*);
 obj* l_BinomialHeapImp_toList___main___rarg(obj*, obj*);
+obj* l_BinomialHeapImp_hRank___main___rarg(obj*);
 obj* l_List_eraseIdx___main___rarg(obj*, obj*);
+obj* l_BinomialHeap_head___main___rarg___boxed(obj*, obj*, obj*);
 obj* l_BinomialHeap_singleton___boxed(obj*, obj*);
 obj* l_BinomialHeapImp_merge___rarg(obj*, obj*, obj*);
+obj* l_BinomialHeap_tail___main(obj*);
 obj* l_BinomialHeapImp_hRank___rarg(obj*);
 obj* l_BinomialHeap_tail(obj*);
 obj* l_BinomialHeapImp_Inhabited(obj* x_1) {
@@ -97,7 +127,7 @@ x_2 = lean::box(0);
 return x_2;
 }
 }
-obj* l_BinomialHeapImp_hRank___rarg(obj* x_1) {
+obj* l_BinomialHeapImp_hRank___main___rarg(obj* x_1) {
 _start:
 {
 if (lean::obj_tag(x_1) == 0)
@@ -114,6 +144,31 @@ x_4 = lean::cnstr_get(x_3, 1);
 lean::inc(x_4);
 return x_4;
 }
+}
+}
+obj* l_BinomialHeapImp_hRank___main(obj* x_1) {
+_start:
+{
+obj* x_2; 
+x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_BinomialHeapImp_hRank___main___rarg___boxed), 1, 0);
+return x_2;
+}
+}
+obj* l_BinomialHeapImp_hRank___main___rarg___boxed(obj* x_1) {
+_start:
+{
+obj* x_2; 
+x_2 = l_BinomialHeapImp_hRank___main___rarg(x_1);
+lean::dec(x_1);
+return x_2;
+}
+}
+obj* l_BinomialHeapImp_hRank___rarg(obj* x_1) {
+_start:
+{
+obj* x_2; 
+x_2 = l_BinomialHeapImp_hRank___main___rarg(x_1);
+return x_2;
 }
 }
 obj* l_BinomialHeapImp_hRank(obj* x_1) {
@@ -133,7 +188,7 @@ lean::dec(x_1);
 return x_2;
 }
 }
-uint8 l_BinomialHeapImp_isEmpty___rarg(obj* x_1) {
+uint8 l_BinomialHeapImp_isEmpty___main___rarg(obj* x_1) {
 _start:
 {
 if (lean::obj_tag(x_1) == 0)
@@ -148,6 +203,32 @@ uint8 x_3;
 x_3 = 0;
 return x_3;
 }
+}
+}
+obj* l_BinomialHeapImp_isEmpty___main(obj* x_1) {
+_start:
+{
+obj* x_2; 
+x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_BinomialHeapImp_isEmpty___main___rarg___boxed), 1, 0);
+return x_2;
+}
+}
+obj* l_BinomialHeapImp_isEmpty___main___rarg___boxed(obj* x_1) {
+_start:
+{
+uint8 x_2; obj* x_3; 
+x_2 = l_BinomialHeapImp_isEmpty___main___rarg(x_1);
+lean::dec(x_1);
+x_3 = lean::box(x_2);
+return x_3;
+}
+}
+uint8 l_BinomialHeapImp_isEmpty___rarg(obj* x_1) {
+_start:
+{
+uint8 x_2; 
+x_2 = l_BinomialHeapImp_isEmpty___main___rarg(x_1);
+return x_2;
 }
 }
 obj* l_BinomialHeapImp_isEmpty(obj* x_1) {
@@ -392,13 +473,13 @@ lean::inc(x_1);
 x_15 = l_BinomialHeapImp_combine___rarg(x_1, x_4, x_6);
 x_16 = lean::cnstr_get(x_15, 1);
 lean::inc(x_16);
-x_17 = l_BinomialHeapImp_hRank___rarg(x_5);
+x_17 = l_BinomialHeapImp_hRank___main___rarg(x_5);
 x_18 = lean::nat_dec_eq(x_16, x_17);
 lean::dec(x_17);
 if (x_18 == 0)
 {
 obj* x_19; uint8 x_20; 
-x_19 = l_BinomialHeapImp_hRank___rarg(x_7);
+x_19 = l_BinomialHeapImp_hRank___main___rarg(x_7);
 x_20 = lean::nat_dec_eq(x_16, x_19);
 lean::dec(x_19);
 lean::dec(x_16);
@@ -422,7 +503,7 @@ goto _start;
 else
 {
 obj* x_23; uint8 x_24; 
-x_23 = l_BinomialHeapImp_hRank___rarg(x_7);
+x_23 = l_BinomialHeapImp_hRank___main___rarg(x_7);
 x_24 = lean::nat_dec_eq(x_16, x_23);
 lean::dec(x_23);
 lean::dec(x_16);
@@ -467,13 +548,13 @@ lean::inc(x_1);
 x_29 = l_BinomialHeapImp_combine___rarg(x_1, x_4, x_6);
 x_30 = lean::cnstr_get(x_29, 1);
 lean::inc(x_30);
-x_31 = l_BinomialHeapImp_hRank___rarg(x_5);
+x_31 = l_BinomialHeapImp_hRank___main___rarg(x_5);
 x_32 = lean::nat_dec_eq(x_30, x_31);
 lean::dec(x_31);
 if (x_32 == 0)
 {
 obj* x_33; uint8 x_34; 
-x_33 = l_BinomialHeapImp_hRank___rarg(x_7);
+x_33 = l_BinomialHeapImp_hRank___main___rarg(x_7);
 x_34 = lean::nat_dec_eq(x_30, x_33);
 lean::dec(x_33);
 lean::dec(x_30);
@@ -500,7 +581,7 @@ goto _start;
 else
 {
 obj* x_39; uint8 x_40; 
-x_39 = l_BinomialHeapImp_hRank___rarg(x_7);
+x_39 = l_BinomialHeapImp_hRank___main___rarg(x_7);
 x_40 = lean::nat_dec_eq(x_30, x_39);
 lean::dec(x_39);
 lean::dec(x_30);
@@ -598,7 +679,7 @@ x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_BinomialHeapImp_mergeNodes__
 return x_2;
 }
 }
-obj* l_BinomialHeapImp_merge___rarg(obj* x_1, obj* x_2, obj* x_3) {
+obj* l_BinomialHeapImp_merge___main___rarg(obj* x_1, obj* x_2, obj* x_3) {
 _start:
 {
 if (lean::obj_tag(x_2) == 0)
@@ -643,6 +724,22 @@ return x_10;
 }
 }
 }
+obj* l_BinomialHeapImp_merge___main(obj* x_1) {
+_start:
+{
+obj* x_2; 
+x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_BinomialHeapImp_merge___main___rarg), 3, 0);
+return x_2;
+}
+}
+obj* l_BinomialHeapImp_merge___rarg(obj* x_1, obj* x_2, obj* x_3) {
+_start:
+{
+obj* x_4; 
+x_4 = l_BinomialHeapImp_merge___main___rarg(x_1, x_2, x_3);
+return x_4;
+}
+}
 obj* l_BinomialHeapImp_merge(obj* x_1) {
 _start:
 {
@@ -651,7 +748,7 @@ x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_BinomialHeapImp_merge___rarg
 return x_2;
 }
 }
-obj* l_List_foldl___main___at_BinomialHeapImp_headOpt___spec__1___rarg(obj* x_1, obj* x_2, obj* x_3) {
+obj* l_List_foldl___main___at_BinomialHeapImp_headOpt___main___spec__1___rarg(obj* x_1, obj* x_2, obj* x_3) {
 _start:
 {
 if (lean::obj_tag(x_3) == 0)
@@ -754,15 +851,15 @@ goto _start;
 }
 }
 }
-obj* l_List_foldl___main___at_BinomialHeapImp_headOpt___spec__1(obj* x_1) {
+obj* l_List_foldl___main___at_BinomialHeapImp_headOpt___main___spec__1(obj* x_1) {
 _start:
 {
 obj* x_2; 
-x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_List_foldl___main___at_BinomialHeapImp_headOpt___spec__1___rarg), 3, 0);
+x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_List_foldl___main___at_BinomialHeapImp_headOpt___main___spec__1___rarg), 3, 0);
 return x_2;
 }
 }
-obj* l_BinomialHeapImp_headOpt___rarg(obj* x_1, obj* x_2) {
+obj* l_BinomialHeapImp_headOpt___main___rarg(obj* x_1, obj* x_2) {
 _start:
 {
 if (lean::obj_tag(x_2) == 0)
@@ -779,9 +876,25 @@ x_4 = lean::cnstr_get(x_2, 0);
 lean::inc(x_4);
 lean::dec(x_2);
 x_5 = lean::box(0);
-x_6 = l_List_foldl___main___at_BinomialHeapImp_headOpt___spec__1___rarg(x_1, x_5, x_4);
+x_6 = l_List_foldl___main___at_BinomialHeapImp_headOpt___main___spec__1___rarg(x_1, x_5, x_4);
 return x_6;
 }
+}
+}
+obj* l_BinomialHeapImp_headOpt___main(obj* x_1) {
+_start:
+{
+obj* x_2; 
+x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_BinomialHeapImp_headOpt___main___rarg), 2, 0);
+return x_2;
+}
+}
+obj* l_BinomialHeapImp_headOpt___rarg(obj* x_1, obj* x_2) {
+_start:
+{
+obj* x_3; 
+x_3 = l_BinomialHeapImp_headOpt___main___rarg(x_1, x_2);
+return x_3;
 }
 }
 obj* l_BinomialHeapImp_headOpt(obj* x_1) {
@@ -792,7 +905,7 @@ x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_BinomialHeapImp_headOpt___ra
 return x_2;
 }
 }
-obj* l_List_foldl___main___at_BinomialHeapImp_head___spec__1___rarg(obj* x_1, obj* x_2, obj* x_3) {
+obj* l_List_foldl___main___at_BinomialHeapImp_head___main___spec__1___rarg(obj* x_1, obj* x_2, obj* x_3) {
 _start:
 {
 if (lean::obj_tag(x_3) == 0)
@@ -833,15 +946,15 @@ goto _start;
 }
 }
 }
-obj* l_List_foldl___main___at_BinomialHeapImp_head___spec__1(obj* x_1) {
+obj* l_List_foldl___main___at_BinomialHeapImp_head___main___spec__1(obj* x_1) {
 _start:
 {
 obj* x_2; 
-x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_List_foldl___main___at_BinomialHeapImp_head___spec__1___rarg), 3, 0);
+x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_List_foldl___main___at_BinomialHeapImp_head___main___spec__1___rarg), 3, 0);
 return x_2;
 }
 }
-obj* l_BinomialHeapImp_head___rarg(obj* x_1, obj* x_2, obj* x_3) {
+obj* l_BinomialHeapImp_head___main___rarg(obj* x_1, obj* x_2, obj* x_3) {
 _start:
 {
 if (lean::obj_tag(x_3) == 0)
@@ -873,10 +986,35 @@ lean::dec(x_4);
 x_7 = lean::cnstr_get(x_5, 0);
 lean::inc(x_7);
 lean::dec(x_5);
-x_8 = l_List_foldl___main___at_BinomialHeapImp_head___spec__1___rarg(x_2, x_7, x_6);
+x_8 = l_List_foldl___main___at_BinomialHeapImp_head___main___spec__1___rarg(x_2, x_7, x_6);
 return x_8;
 }
 }
+}
+}
+obj* l_BinomialHeapImp_head___main(obj* x_1) {
+_start:
+{
+obj* x_2; 
+x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_BinomialHeapImp_head___main___rarg___boxed), 3, 0);
+return x_2;
+}
+}
+obj* l_BinomialHeapImp_head___main___rarg___boxed(obj* x_1, obj* x_2, obj* x_3) {
+_start:
+{
+obj* x_4; 
+x_4 = l_BinomialHeapImp_head___main___rarg(x_1, x_2, x_3);
+lean::dec(x_1);
+return x_4;
+}
+}
+obj* l_BinomialHeapImp_head___rarg(obj* x_1, obj* x_2, obj* x_3) {
+_start:
+{
+obj* x_4; 
+x_4 = l_BinomialHeapImp_head___main___rarg(x_1, x_2, x_3);
+return x_4;
 }
 }
 obj* l_BinomialHeapImp_head(obj* x_1) {
@@ -996,7 +1134,7 @@ x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_BinomialHeapImp_findMin___ra
 return x_2;
 }
 }
-obj* l_List_foldl___main___at_BinomialHeapImp_tail___spec__1___rarg(obj* x_1, obj* x_2, obj* x_3) {
+obj* l_List_foldl___main___at_BinomialHeapImp_tail___main___spec__1___rarg(obj* x_1, obj* x_2, obj* x_3) {
 _start:
 {
 if (lean::obj_tag(x_3) == 0)
@@ -1013,22 +1151,22 @@ x_5 = lean::cnstr_get(x_3, 1);
 lean::inc(x_5);
 lean::dec(x_3);
 lean::inc(x_1);
-x_6 = l_BinomialHeapImp_merge___rarg(x_1, x_2, x_4);
+x_6 = l_BinomialHeapImp_merge___main___rarg(x_1, x_2, x_4);
 x_2 = x_6;
 x_3 = x_5;
 goto _start;
 }
 }
 }
-obj* l_List_foldl___main___at_BinomialHeapImp_tail___spec__1(obj* x_1) {
+obj* l_List_foldl___main___at_BinomialHeapImp_tail___main___spec__1(obj* x_1) {
 _start:
 {
 obj* x_2; 
-x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_List_foldl___main___at_BinomialHeapImp_tail___spec__1___rarg), 3, 0);
+x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_List_foldl___main___at_BinomialHeapImp_tail___main___spec__1___rarg), 3, 0);
 return x_2;
 }
 }
-obj* l_List_foldl___main___at_BinomialHeapImp_tail___spec__2___rarg(obj* x_1, obj* x_2, obj* x_3) {
+obj* l_List_foldl___main___at_BinomialHeapImp_tail___main___spec__2___rarg(obj* x_1, obj* x_2, obj* x_3) {
 _start:
 {
 if (lean::obj_tag(x_3) == 0)
@@ -1045,22 +1183,22 @@ x_5 = lean::cnstr_get(x_3, 1);
 lean::inc(x_5);
 lean::dec(x_3);
 lean::inc(x_1);
-x_6 = l_BinomialHeapImp_merge___rarg(x_1, x_2, x_4);
+x_6 = l_BinomialHeapImp_merge___main___rarg(x_1, x_2, x_4);
 x_2 = x_6;
 x_3 = x_5;
 goto _start;
 }
 }
 }
-obj* l_List_foldl___main___at_BinomialHeapImp_tail___spec__2(obj* x_1) {
+obj* l_List_foldl___main___at_BinomialHeapImp_tail___main___spec__2(obj* x_1) {
 _start:
 {
 obj* x_2; 
-x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_List_foldl___main___at_BinomialHeapImp_tail___spec__2___rarg), 3, 0);
+x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_List_foldl___main___at_BinomialHeapImp_tail___main___spec__2___rarg), 3, 0);
 return x_2;
 }
 }
-obj* l_BinomialHeapImp_tail___rarg(obj* x_1, obj* x_2) {
+obj* l_BinomialHeapImp_tail___main___rarg(obj* x_1, obj* x_2) {
 _start:
 {
 if (lean::obj_tag(x_2) == 0)
@@ -1114,7 +1252,7 @@ lean::inc(x_10);
 x_11 = lean::cnstr_get(x_8, 1);
 lean::inc(x_11);
 lean::dec(x_8);
-x_12 = l_List_foldl___main___at_BinomialHeapImp_tail___spec__1___rarg(x_1, x_10, x_11);
+x_12 = l_List_foldl___main___at_BinomialHeapImp_tail___main___spec__1___rarg(x_1, x_10, x_11);
 return x_12;
 }
 }
@@ -1141,7 +1279,7 @@ lean::cnstr_set(x_2, 0, x_20);
 x_21 = lean::cnstr_get(x_18, 2);
 lean::inc(x_21);
 lean::dec(x_18);
-x_22 = l_List_foldl___main___at_BinomialHeapImp_tail___spec__2___rarg(x_1, x_2, x_21);
+x_22 = l_List_foldl___main___at_BinomialHeapImp_tail___main___spec__2___rarg(x_1, x_2, x_21);
 return x_22;
 }
 }
@@ -1188,7 +1326,7 @@ lean::inc(x_29);
 x_30 = lean::cnstr_get(x_27, 1);
 lean::inc(x_30);
 lean::dec(x_27);
-x_31 = l_List_foldl___main___at_BinomialHeapImp_tail___spec__1___rarg(x_1, x_29, x_30);
+x_31 = l_List_foldl___main___at_BinomialHeapImp_tail___main___spec__1___rarg(x_1, x_29, x_30);
 return x_31;
 }
 }
@@ -1216,12 +1354,28 @@ lean::cnstr_set(x_40, 0, x_39);
 x_41 = lean::cnstr_get(x_37, 2);
 lean::inc(x_41);
 lean::dec(x_37);
-x_42 = l_List_foldl___main___at_BinomialHeapImp_tail___spec__2___rarg(x_1, x_40, x_41);
+x_42 = l_List_foldl___main___at_BinomialHeapImp_tail___main___spec__2___rarg(x_1, x_40, x_41);
 return x_42;
 }
 }
 }
 }
+}
+}
+obj* l_BinomialHeapImp_tail___main(obj* x_1) {
+_start:
+{
+obj* x_2; 
+x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_BinomialHeapImp_tail___main___rarg), 2, 0);
+return x_2;
+}
+}
+obj* l_BinomialHeapImp_tail___rarg(obj* x_1, obj* x_2) {
+_start:
+{
+obj* x_3; 
+x_3 = l_BinomialHeapImp_tail___main___rarg(x_1, x_2);
+return x_3;
 }
 }
 obj* l_BinomialHeapImp_tail(obj* x_1) {
@@ -1247,7 +1401,7 @@ else
 obj* x_4; 
 lean::inc(x_2);
 lean::inc(x_1);
-x_4 = l_BinomialHeapImp_headOpt___rarg(x_1, x_2);
+x_4 = l_BinomialHeapImp_headOpt___main___rarg(x_1, x_2);
 if (lean::obj_tag(x_4) == 0)
 {
 obj* x_5; 
@@ -1263,7 +1417,7 @@ x_6 = lean::cnstr_get(x_4, 0);
 lean::inc(x_6);
 lean::dec(x_4);
 lean::inc(x_1);
-x_7 = l_BinomialHeapImp_tail___rarg(x_1, x_2);
+x_7 = l_BinomialHeapImp_tail___main___rarg(x_1, x_2);
 x_8 = l_BinomialHeapImp_toList___main___rarg(x_1, x_7);
 x_9 = lean::alloc_cnstr(1, 2, 0);
 lean::cnstr_set(x_9, 0, x_6);
@@ -1331,11 +1485,46 @@ lean::dec(x_2);
 return x_3;
 }
 }
+uint8 l_BinomialHeap_isEmpty___main___rarg(obj* x_1) {
+_start:
+{
+uint8 x_2; 
+x_2 = l_BinomialHeapImp_isEmpty___main___rarg(x_1);
+return x_2;
+}
+}
+obj* l_BinomialHeap_isEmpty___main(obj* x_1, obj* x_2) {
+_start:
+{
+obj* x_3; 
+x_3 = lean::alloc_closure(reinterpret_cast<void*>(l_BinomialHeap_isEmpty___main___rarg___boxed), 1, 0);
+return x_3;
+}
+}
+obj* l_BinomialHeap_isEmpty___main___rarg___boxed(obj* x_1) {
+_start:
+{
+uint8 x_2; obj* x_3; 
+x_2 = l_BinomialHeap_isEmpty___main___rarg(x_1);
+lean::dec(x_1);
+x_3 = lean::box(x_2);
+return x_3;
+}
+}
+obj* l_BinomialHeap_isEmpty___main___boxed(obj* x_1, obj* x_2) {
+_start:
+{
+obj* x_3; 
+x_3 = l_BinomialHeap_isEmpty___main(x_1, x_2);
+lean::dec(x_2);
+return x_3;
+}
+}
 uint8 l_BinomialHeap_isEmpty___rarg(obj* x_1) {
 _start:
 {
 uint8 x_2; 
-x_2 = l_BinomialHeapImp_isEmpty___rarg(x_1);
+x_2 = l_BinomialHeapImp_isEmpty___main___rarg(x_1);
 return x_2;
 }
 }
@@ -1391,11 +1580,27 @@ lean::dec(x_2);
 return x_3;
 }
 }
+obj* l_BinomialHeap_merge___main___rarg(obj* x_1, obj* x_2, obj* x_3) {
+_start:
+{
+obj* x_4; 
+x_4 = l_BinomialHeapImp_merge___main___rarg(x_1, x_2, x_3);
+return x_4;
+}
+}
+obj* l_BinomialHeap_merge___main(obj* x_1) {
+_start:
+{
+obj* x_2; 
+x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_BinomialHeap_merge___main___rarg), 3, 0);
+return x_2;
+}
+}
 obj* l_BinomialHeap_merge___rarg(obj* x_1, obj* x_2, obj* x_3) {
 _start:
 {
 obj* x_4; 
-x_4 = l_BinomialHeapImp_merge___rarg(x_1, x_2, x_3);
+x_4 = l_BinomialHeapImp_merge___main___rarg(x_1, x_2, x_3);
 return x_4;
 }
 }
@@ -1407,11 +1612,36 @@ x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_BinomialHeap_merge___rarg), 
 return x_2;
 }
 }
+obj* l_BinomialHeap_head___main___rarg(obj* x_1, obj* x_2, obj* x_3) {
+_start:
+{
+obj* x_4; 
+x_4 = l_BinomialHeapImp_head___main___rarg(x_2, x_1, x_3);
+return x_4;
+}
+}
+obj* l_BinomialHeap_head___main(obj* x_1) {
+_start:
+{
+obj* x_2; 
+x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_BinomialHeap_head___main___rarg___boxed), 3, 0);
+return x_2;
+}
+}
+obj* l_BinomialHeap_head___main___rarg___boxed(obj* x_1, obj* x_2, obj* x_3) {
+_start:
+{
+obj* x_4; 
+x_4 = l_BinomialHeap_head___main___rarg(x_1, x_2, x_3);
+lean::dec(x_2);
+return x_4;
+}
+}
 obj* l_BinomialHeap_head___rarg(obj* x_1, obj* x_2, obj* x_3) {
 _start:
 {
 obj* x_4; 
-x_4 = l_BinomialHeapImp_head___rarg(x_2, x_1, x_3);
+x_4 = l_BinomialHeapImp_head___main___rarg(x_2, x_1, x_3);
 return x_4;
 }
 }
@@ -1432,11 +1662,27 @@ lean::dec(x_2);
 return x_4;
 }
 }
+obj* l_BinomialHeap_headOpt___main___rarg(obj* x_1, obj* x_2) {
+_start:
+{
+obj* x_3; 
+x_3 = l_BinomialHeapImp_headOpt___main___rarg(x_1, x_2);
+return x_3;
+}
+}
+obj* l_BinomialHeap_headOpt___main(obj* x_1) {
+_start:
+{
+obj* x_2; 
+x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_BinomialHeap_headOpt___main___rarg), 2, 0);
+return x_2;
+}
+}
 obj* l_BinomialHeap_headOpt___rarg(obj* x_1, obj* x_2) {
 _start:
 {
 obj* x_3; 
-x_3 = l_BinomialHeapImp_headOpt___rarg(x_1, x_2);
+x_3 = l_BinomialHeapImp_headOpt___main___rarg(x_1, x_2);
 return x_3;
 }
 }
@@ -1448,11 +1694,27 @@ x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_BinomialHeap_headOpt___rarg)
 return x_2;
 }
 }
+obj* l_BinomialHeap_tail___main___rarg(obj* x_1, obj* x_2) {
+_start:
+{
+obj* x_3; 
+x_3 = l_BinomialHeapImp_tail___main___rarg(x_1, x_2);
+return x_3;
+}
+}
+obj* l_BinomialHeap_tail___main(obj* x_1) {
+_start:
+{
+obj* x_2; 
+x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_BinomialHeap_tail___main___rarg), 2, 0);
+return x_2;
+}
+}
 obj* l_BinomialHeap_tail___rarg(obj* x_1, obj* x_2) {
 _start:
 {
 obj* x_3; 
-x_3 = l_BinomialHeapImp_tail___rarg(x_1, x_2);
+x_3 = l_BinomialHeapImp_tail___main___rarg(x_1, x_2);
 return x_3;
 }
 }
@@ -1469,7 +1731,7 @@ _start:
 {
 obj* x_4; obj* x_5; 
 x_4 = l_BinomialHeapImp_singleton___rarg(x_2);
-x_5 = l_BinomialHeapImp_merge___rarg(x_1, x_4, x_3);
+x_5 = l_BinomialHeapImp_merge___main___rarg(x_1, x_4, x_3);
 return x_5;
 }
 }
@@ -1478,6 +1740,22 @@ _start:
 {
 obj* x_2; 
 x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_BinomialHeap_insert___rarg), 3, 0);
+return x_2;
+}
+}
+obj* l_BinomialHeap_toList___main___rarg(obj* x_1, obj* x_2) {
+_start:
+{
+obj* x_3; 
+x_3 = l_BinomialHeapImp_toList___main___rarg(x_1, x_2);
+return x_3;
+}
+}
+obj* l_BinomialHeap_toList___main(obj* x_1) {
+_start:
+{
+obj* x_2; 
+x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_BinomialHeap_toList___main___rarg), 2, 0);
 return x_2;
 }
 }

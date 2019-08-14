@@ -14,6 +14,7 @@ typedef lean::uint32 uint32; typedef lean::uint64 uint64;
 #pragma GCC diagnostic ignored "-Wunused-label"
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
 #endif
+obj* l_RBNode_setBlack___main___rarg(obj*);
 obj* l_RBNode_fold___main___at___private_init_lean_compiler_ir_livevars_6__accumulate___spec__1(obj*, obj*, obj*);
 obj* l_Lean_IR_IsLive_visitArgs___boxed(obj*, obj*, obj*);
 obj* l___private_init_lean_compiler_ir_livevars_4__collectArray___at_Lean_IR_LiveVars_collectFnBody___main___spec__3___boxed(obj*, obj*, obj*);
@@ -43,9 +44,9 @@ obj* l_Array_miterateAux___main___at___private_init_lean_compiler_ir_livevars_5_
 obj* l___private_init_lean_compiler_ir_livevars_9__bindParams(obj*, obj*);
 obj* l_Lean_IR_AltCore_body(obj*);
 obj* l_RBNode_erase___at___private_init_lean_compiler_ir_livevars_8__bindVar___spec__1(obj*, obj*);
+obj* l_RBNode_balLeft___main___rarg(obj*, obj*, obj*, obj*);
 obj* l___private_init_lean_compiler_ir_livevars_4__collectArray___rarg___boxed(obj*, obj*, obj*);
 obj* l_Lean_IR_LiveVarSet_inhabited;
-uint8 l_RBNode_isRed___rarg(obj*);
 namespace lean {
 uint8 nat_dec_lt(obj*, obj*);
 }
@@ -62,6 +63,7 @@ namespace lean {
 uint8 nat_dec_eq(obj*, obj*);
 }
 obj* l_Lean_IR_updateLiveVars(obj*, obj*);
+uint8 l_RBNode_isRed___main___rarg(obj*);
 obj* l_Lean_IR_IsLive_visitFnBody___main___boxed(obj*, obj*, obj*);
 obj* l_Lean_IR_FnBody_hasLiveVar(obj*, obj*, obj*);
 obj* l_Lean_IR_IsLive_visitJP___boxed(obj*, obj*, obj*);
@@ -70,11 +72,11 @@ obj* l___private_init_lean_compiler_ir_livevars_4__collectArray___at___private_i
 obj* l___private_init_lean_compiler_ir_livevars_7__collectJP(obj*, obj*, obj*);
 obj* l_RBNode_find___main___at___private_init_lean_compiler_ir_livevars_7__collectJP___spec__1___boxed(obj*, obj*);
 obj* l_Array_miterateAux___main___at___private_init_lean_compiler_ir_livevars_4__collectArray___spec__1___rarg___boxed(obj*, obj*, obj*, obj*, obj*);
-uint8 l_RBNode_isBlack___rarg(obj*);
 obj* l___private_init_lean_compiler_ir_livevars_2__collectVar(obj*, obj*);
 obj* l_Lean_IR_LiveVars_collectFnBody(obj*, obj*, obj*);
 obj* l_Lean_IR_LiveVars_collectExpr(obj*, obj*);
 obj* l_Lean_IR_LiveVars_updateJPLiveVarMap___boxed(obj*, obj*, obj*, obj*);
+uint8 l_RBNode_isBlack___main___rarg(obj*);
 obj* l_Array_anyMAux___main___at_Lean_IR_IsLive_visitFnBody___main___spec__1(obj*, obj*, obj*, obj*);
 obj* l_Lean_IR_IsLive_visitExpr(obj*, obj*, obj*);
 obj* l_Nat_decLt___boxed(obj*, obj*);
@@ -88,9 +90,7 @@ uint8 l_Lean_IR_HasIndex_visitExpr(obj*, obj*);
 obj* l_Array_size(obj*, obj*);
 obj* l_Lean_IR_IsLive_visitArgs(obj*, obj*, obj*);
 obj* l_Array_anyMAux___main___at_Lean_IR_IsLive_visitFnBody___main___spec__1___boxed(obj*, obj*, obj*, obj*);
-obj* l_RBNode_setBlack___rarg(obj*);
 obj* l_Lean_IR_IsLive_visitFnBody(obj*, obj*, obj*);
-obj* l_RBNode_balLeft___rarg(obj*, obj*, obj*, obj*);
 obj* l_Array_miterateAux___main___at_Lean_IR_LiveVars_collectFnBody___main___spec__4___boxed(obj*, obj*, obj*, obj*, obj*);
 obj* l___private_init_lean_compiler_ir_livevars_4__collectArray(obj*);
 obj* l_Array_miterateAux___main___at_Lean_IR_LiveVars_collectFnBody___main___spec__4(obj*, obj*, obj*, obj*, obj*);
@@ -813,7 +813,7 @@ return x_1;
 else
 {
 uint8 x_34; 
-x_34 = l_RBNode_isRed___rarg(x_31);
+x_34 = l_RBNode_isRed___main___rarg(x_31);
 if (x_34 == 0)
 {
 obj* x_35; 
@@ -1493,7 +1493,7 @@ return x_1;
 else
 {
 uint8 x_174; 
-x_174 = l_RBNode_isRed___rarg(x_28);
+x_174 = l_RBNode_isRed___main___rarg(x_28);
 if (x_174 == 0)
 {
 obj* x_175; 
@@ -2212,7 +2212,7 @@ return x_321;
 else
 {
 uint8 x_322; 
-x_322 = l_RBNode_isRed___rarg(x_318);
+x_322 = l_RBNode_isRed___main___rarg(x_318);
 if (x_322 == 0)
 {
 obj* x_323; obj* x_324; 
@@ -2656,7 +2656,7 @@ return x_399;
 else
 {
 uint8 x_400; 
-x_400 = l_RBNode_isRed___rarg(x_315);
+x_400 = l_RBNode_isRed___main___rarg(x_315);
 if (x_400 == 0)
 {
 obj* x_401; obj* x_402; 
@@ -3105,7 +3105,7 @@ obj* l_RBNode_insert___at_Lean_IR_mkLiveVarSet___spec__1(obj* x_1, obj* x_2, obj
 _start:
 {
 uint8 x_4; 
-x_4 = l_RBNode_isRed___rarg(x_1);
+x_4 = l_RBNode_isRed___main___rarg(x_1);
 if (x_4 == 0)
 {
 obj* x_5; 
@@ -3116,7 +3116,7 @@ else
 {
 obj* x_6; obj* x_7; 
 x_6 = l_RBNode_ins___main___at_Lean_IR_mkLiveVarSet___spec__2(x_1, x_2, x_3);
-x_7 = l_RBNode_setBlack___rarg(x_6);
+x_7 = l_RBNode_setBlack___main___rarg(x_6);
 return x_7;
 }
 }
@@ -3490,7 +3490,7 @@ return x_10;
 else
 {
 uint8 x_11; 
-x_11 = l_RBNode_isBlack___rarg(x_7);
+x_11 = l_RBNode_isBlack___main___rarg(x_7);
 if (x_11 == 0)
 {
 obj* x_12; uint8 x_13; 
@@ -3513,7 +3513,7 @@ return x_15;
 else
 {
 uint8 x_16; 
-x_16 = l_RBNode_isBlack___rarg(x_4);
+x_16 = l_RBNode_isBlack___main___rarg(x_4);
 if (x_16 == 0)
 {
 obj* x_17; uint8 x_18; 
@@ -3528,7 +3528,7 @@ else
 obj* x_19; obj* x_20; 
 lean::free_heap_obj(x_2);
 x_19 = l_RBNode_del___main___at___private_init_lean_compiler_ir_livevars_8__bindVar___spec__2(x_1, x_4);
-x_20 = l_RBNode_balLeft___rarg(x_19, x_5, x_6, x_7);
+x_20 = l_RBNode_balLeft___main___rarg(x_19, x_5, x_6, x_7);
 return x_20;
 }
 }
@@ -3561,7 +3561,7 @@ return x_27;
 else
 {
 uint8 x_28; 
-x_28 = l_RBNode_isBlack___rarg(x_24);
+x_28 = l_RBNode_isBlack___main___rarg(x_24);
 if (x_28 == 0)
 {
 obj* x_29; uint8 x_30; obj* x_31; 
@@ -3587,7 +3587,7 @@ return x_33;
 else
 {
 uint8 x_34; 
-x_34 = l_RBNode_isBlack___rarg(x_21);
+x_34 = l_RBNode_isBlack___main___rarg(x_21);
 if (x_34 == 0)
 {
 obj* x_35; uint8 x_36; obj* x_37; 
@@ -3605,7 +3605,7 @@ else
 {
 obj* x_38; obj* x_39; 
 x_38 = l_RBNode_del___main___at___private_init_lean_compiler_ir_livevars_8__bindVar___spec__2(x_1, x_21);
-x_39 = l_RBNode_balLeft___rarg(x_38, x_22, x_23, x_24);
+x_39 = l_RBNode_balLeft___main___rarg(x_38, x_22, x_23, x_24);
 return x_39;
 }
 }
@@ -3618,7 +3618,7 @@ _start:
 {
 obj* x_3; obj* x_4; 
 x_3 = l_RBNode_del___main___at___private_init_lean_compiler_ir_livevars_8__bindVar___spec__2(x_1, x_2);
-x_4 = l_RBNode_setBlack___rarg(x_3);
+x_4 = l_RBNode_setBlack___main___rarg(x_3);
 return x_4;
 }
 }
@@ -3983,7 +3983,7 @@ return x_1;
 else
 {
 uint8 x_34; 
-x_34 = l_RBNode_isRed___rarg(x_31);
+x_34 = l_RBNode_isRed___main___rarg(x_31);
 if (x_34 == 0)
 {
 obj* x_35; 
@@ -4663,7 +4663,7 @@ return x_1;
 else
 {
 uint8 x_174; 
-x_174 = l_RBNode_isRed___rarg(x_28);
+x_174 = l_RBNode_isRed___main___rarg(x_28);
 if (x_174 == 0)
 {
 obj* x_175; 
@@ -5382,7 +5382,7 @@ return x_321;
 else
 {
 uint8 x_322; 
-x_322 = l_RBNode_isRed___rarg(x_318);
+x_322 = l_RBNode_isRed___main___rarg(x_318);
 if (x_322 == 0)
 {
 obj* x_323; obj* x_324; 
@@ -5826,7 +5826,7 @@ return x_399;
 else
 {
 uint8 x_400; 
-x_400 = l_RBNode_isRed___rarg(x_315);
+x_400 = l_RBNode_isRed___main___rarg(x_315);
 if (x_400 == 0)
 {
 obj* x_401; obj* x_402; 
@@ -6275,7 +6275,7 @@ obj* l_RBNode_insert___at_Lean_IR_LiveVars_collectFnBody___main___spec__1(obj* x
 _start:
 {
 uint8 x_4; 
-x_4 = l_RBNode_isRed___rarg(x_1);
+x_4 = l_RBNode_isRed___main___rarg(x_1);
 if (x_4 == 0)
 {
 obj* x_5; 
@@ -6286,7 +6286,7 @@ else
 {
 obj* x_6; obj* x_7; 
 x_6 = l_RBNode_ins___main___at_Lean_IR_LiveVars_collectFnBody___main___spec__2(x_1, x_2, x_3);
-x_7 = l_RBNode_setBlack___rarg(x_6);
+x_7 = l_RBNode_setBlack___main___rarg(x_6);
 return x_7;
 }
 }

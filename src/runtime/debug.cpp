@@ -44,7 +44,8 @@ bool assertions_enabled() {
     return g_enable_assertions;
 }
 
-void notify_assertion_violation(const char * fileName, int line, const char * condition) {
+extern "C"
+void lean_notify_assertion_violation(const char * fileName, int line, const char * condition) {
     std::cerr << "LEAN ASSERTION VIOLATION\n";
     std::cerr << "File: " << fileName << "\n";
     std::cerr << "Line: " << line << "\n";

@@ -5,6 +5,8 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Author: Leonardo de Moura
 */
 #pragma once
+
+#ifdef __cplusplus
 #include <iostream>
 #include <typeinfo>
 #include "runtime/exception.h"
@@ -13,12 +15,30 @@ Author: Leonardo de Moura
 #ifndef __has_builtin
 #define __has_builtin(x) 0
 #endif
+#endif // __cplusplus
 
 #ifdef LEAN_DEBUG
 #define DEBUG_CODE(CODE) CODE
 #else
 #define DEBUG_CODE(CODE)
 #endif
+
+#ifdef __cplusplus
+#define LEAN_EXTERN_BEGIN extern "C" {
+#define LEAN_EXTERN_END   }
+#else
+#define LEAN_EXTERN_BEGIN
+#define LEAN_EXTERN_END
+#endif
+
+
+LEAN_EXTERN_BEGIN
+
+void lean_notify_assertion_violation(char const * file_name, int line, char const * condition);
+
+LEAN_EXTERN_END
+
+#ifdef __cplusplus
 
 #define lean_unreachable() { DEBUG_CODE({lean::notify_assertion_violation(__FILE__, __LINE__, "UNREACHABLE CODE WAS REACHED."); lean::invoke_debugger();}) throw lean::unreachable_reached(); }
 
@@ -89,8 +109,11 @@ Author: Leonardo de Moura
 #define LEAN_JOIN0(A, B) A ## B
 #define LEAN_JOIN(A, B) LEAN_JOIN0(A, B)
 #define LEAN_DISPLAY(...) { LEAN_JOIN(LEAN_DISPLAY, LEAN_NARG(__VA_ARGS__))(__VA_ARGS__) }
+#endif // __cplusplus
 
-#define lean_assert(COND, ...) DEBUG_CODE({if (LEAN_UNLIKELY(!(COND))) { lean::notify_assertion_violation(__FILE__, __LINE__, #COND); LEAN_DISPLAY(__VA_ARGS__); lean::invoke_debugger(); }})
+#define lean_assert(COND, ...) DEBUG_CODE({if (LEAN_UNLIKELY(!(COND))) { lean_notify_assertion_violation(__FILE__, __LINE__, #COND); LEAN_DISPLAY(__VA_ARGS__); lean::invoke_debugger(); }})
+
+#ifdef __cplusplus
 #define lean_cond_assert(TAG, COND, ...) DEBUG_CODE({if (lean::is_debug_enabled(TAG) && LEAN_UNLIKELY(!(COND))) { lean::notify_assertion_violation(__FILE__, __LINE__, #COND); LEAN_DISPLAY(__VA_ARGS__); lean::invoke_debugger(); }})
 #define lean_always_assert(COND, ...) { if (LEAN_UNLIKELY(!(COND))) { lean::notify_assertion_violation(__FILE__, __LINE__, #COND); LEAN_DISPLAY(__VA_ARGS__); lean_unreachable(); } }
 
@@ -104,7 +127,10 @@ Author: Leonardo de Moura
 namespace lean {
 void initialize_debug();
 void finalize_debug();
-void notify_assertion_violation(char const * file_name, int line, char const * condition);
+inline
+void notify_assertion_violation(char const * file_name, int line, char const * condition) {
+    lean_notify_assertion_violation(file_name, line, condition);
+}
 void enable_debug(char const * tag);
 void disable_debug(char const * tag);
 bool is_debug_enabled(char const * tag);
@@ -128,3 +154,4 @@ template<typename T> void display_var(char const * name, T const & value) {
 }
 // LCOV_EXCL_STOP
 }
+#endif // __cplusplus

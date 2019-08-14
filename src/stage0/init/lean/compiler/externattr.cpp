@@ -15,6 +15,7 @@ typedef lean::uint32 uint32; typedef lean::uint64 uint64;
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
 #endif
 obj* l_RBNode_fold___main___at_Lean_mkExternAttr___spec__2___boxed(obj*, obj*);
+uint32 l_String_Iterator_curr___main(obj*);
 obj* l_Lean_getExternEntryForAux___boxed(obj*, obj*);
 obj* l_unsafeCast(obj*, obj*, obj*, obj*);
 obj* l_RBNode_fold___main___at_Lean_mkExternAttr___spec__2(obj*, obj*);
@@ -52,6 +53,7 @@ obj* l_Lean_mkExternAttr___closed__3;
 obj* l___private_init_lean_compiler_externattr_2__syntaxToExternAttrData___closed__10;
 obj* l_Lean_Syntax_isNatLitAux___rarg(obj*, obj*);
 obj* l___private_init_lean_compiler_externattr_2__syntaxToExternAttrData___closed__7;
+obj* l_String_Iterator_remainingBytes___main(obj*);
 extern obj* l_Lean_numLitKind;
 obj* l_Lean_mkExternAttr___lambda__1___boxed(obj*, obj*, obj*);
 obj* l___private_init_lean_compiler_externattr_1__syntaxToExternEntries___main___boxed(obj*, obj*, obj*);
@@ -59,7 +61,6 @@ obj* l___private_init_lean_compiler_externattr_1__syntaxToExternEntries___main__
 obj* l_Lean_isExtern___boxed(obj*, obj*);
 extern obj* l_Lean_registerPersistentEnvExtensionUnsafe___rarg___closed__4;
 obj* l_Lean_Name_toStringWithSep___main(obj*, obj*);
-uint8 l_String_Iterator_hasNext(obj*);
 extern obj* l_Lean_Inhabited;
 obj* l___private_init_lean_compiler_externattr_1__syntaxToExternEntries___main___closed__7;
 obj* l_IO_Prim_Ref_set(obj*, obj*, obj*, obj*);
@@ -75,7 +76,6 @@ obj* l_Array_swap(obj*, obj*, obj*, obj*);
 extern obj* l_Lean_AttributeImpl_inhabited___closed__4;
 obj* l___private_init_data_array_qsort_1__partitionAux___main___at_Lean_mkExternAttr___spec__4___closed__1;
 obj* l_Lean_registerTagAttribute___lambda__5___boxed(obj*, obj*, obj*, obj*, obj*);
-obj* l_String_Iterator_next(obj*);
 obj* l_RBNode_find___main___at_Lean_getExternAttrData___spec__2(obj*, obj*);
 obj* l___private_init_lean_compiler_externattr_2__syntaxToExternAttrData___boxed(obj*);
 extern obj* l_Lean_registerPersistentEnvExtensionUnsafe___rarg___closed__3;
@@ -85,6 +85,7 @@ obj* l_Lean_expandExternPatternAux___boxed(obj*, obj*, obj*, obj*);
 obj* l_Lean_registerParametricAttribute___at_Lean_mkExternAttr___spec__1___lambda__1(obj*);
 obj* l_Lean_expandExternPattern(obj*, obj*);
 obj* l_Lean_Environment_getModuleIdxFor(obj*, obj*);
+obj* l_String_Iterator_next___main(obj*);
 obj* l___private_init_data_array_qsort_1__partitionAux___main___at_Lean_mkExternAttr___spec__4___boxed(obj*, obj*, obj*, obj*, obj*);
 namespace lean {
 obj* get_extern_attr_data_core(obj*, obj*);
@@ -144,7 +145,6 @@ uint8 l_Array_anyMAux___main___at_Lean_mkExternAttr___spec__6(obj*, obj*, obj*);
 obj* l_Lean_mkExternAttr___lambda__2___boxed(obj*, obj*, obj*);
 obj* l_Lean_Syntax_isIdOrAtom___rarg(obj*);
 obj* l___private_init_lean_compiler_externattr_2__syntaxToExternAttrData___closed__1;
-uint32 l_String_Iterator_curr(obj*);
 obj* l_Lean_mkExternAttr(obj*);
 obj* l_Array_size(obj*, obj*);
 obj* l_Lean_getExternEntryForAux(obj*, obj*);
@@ -154,6 +154,7 @@ obj* l_Lean_ParametricAttribute_getParam___at_Lean_getExternAttrData___spec__1__
 obj* l___private_init_lean_compiler_externattr_2__syntaxToExternAttrData___closed__3;
 obj* l___private_init_lean_compiler_externattr_2__syntaxToExternAttrData___closed__9;
 extern obj* l_Lean_registerPersistentEnvExtensionUnsafe___rarg___closed__1;
+uint8 l_String_Iterator_hasNext___main(obj*);
 namespace lean {
 uint8 nat_dec_le(obj*, obj*);
 }
@@ -191,7 +192,6 @@ obj* l_IO_Prim_Ref_reset(obj*, obj*, obj*);
 extern obj* l___private_init_lean_environment_5__envExtensionsRef;
 obj* l___private_init_lean_compiler_externattr_1__syntaxToExternEntries___main___closed__4;
 obj* l_Lean_isExternC___boxed(obj*, obj*);
-obj* l_String_Iterator_remainingBytes(obj*);
 obj* l_Lean_registerTagAttribute___lambda__6___boxed(obj*, obj*, obj*, obj*, obj*);
 extern obj* l_String_splitAux___main___closed__1;
 obj* l_Lean_ExternAttrData_inhabited;
@@ -3428,7 +3428,7 @@ obj* x_6; obj* x_7; uint8 x_8;
 x_6 = lean::mk_nat_obj(1u);
 x_7 = lean::nat_sub(x_1, x_6);
 lean::dec(x_1);
-x_8 = l_String_Iterator_hasNext(x_2);
+x_8 = l_String_Iterator_hasNext___main(x_2);
 if (x_8 == 0)
 {
 obj* x_9; 
@@ -3441,7 +3441,7 @@ return x_9;
 else
 {
 uint32 x_10; uint32 x_11; uint8 x_12; 
-x_10 = l_String_Iterator_curr(x_2);
+x_10 = l_String_Iterator_curr___main(x_2);
 x_11 = 48;
 x_12 = x_11 <= x_10;
 if (x_12 == 0)
@@ -3470,7 +3470,7 @@ return x_16;
 else
 {
 obj* x_17; obj* x_18; obj* x_19; obj* x_20; obj* x_21; obj* x_22; obj* x_23; 
-x_17 = l_String_Iterator_next(x_2);
+x_17 = l_String_Iterator_next___main(x_2);
 x_18 = lean::mk_nat_obj(10u);
 x_19 = lean::nat_mul(x_3, x_18);
 lean::dec(x_3);
@@ -3520,7 +3520,7 @@ obj* x_7; obj* x_8; uint8 x_9;
 x_7 = lean::mk_nat_obj(1u);
 x_8 = lean::nat_sub(x_2, x_7);
 lean::dec(x_2);
-x_9 = l_String_Iterator_hasNext(x_3);
+x_9 = l_String_Iterator_hasNext___main(x_3);
 if (x_9 == 0)
 {
 lean::dec(x_8);
@@ -3530,13 +3530,13 @@ return x_4;
 else
 {
 uint32 x_10; uint32 x_11; uint8 x_12; 
-x_10 = l_String_Iterator_curr(x_3);
+x_10 = l_String_Iterator_curr___main(x_3);
 x_11 = 35;
 x_12 = x_10 == x_11;
 if (x_12 == 0)
 {
 obj* x_13; obj* x_14; 
-x_13 = l_String_Iterator_next(x_3);
+x_13 = l_String_Iterator_next___main(x_3);
 x_14 = lean::string_push(x_4, x_10);
 x_2 = x_8;
 x_3 = x_13;
@@ -3546,8 +3546,8 @@ goto _start;
 else
 {
 obj* x_16; obj* x_17; obj* x_18; obj* x_19; obj* x_20; obj* x_21; obj* x_22; 
-x_16 = l_String_Iterator_next(x_3);
-x_17 = l_String_Iterator_remainingBytes(x_16);
+x_16 = l_String_Iterator_next___main(x_3);
+x_17 = l_String_Iterator_remainingBytes___main(x_16);
 x_18 = l___private_init_lean_compiler_externattr_3__parseOptNum___main(x_17, x_16, x_5);
 x_19 = lean::cnstr_get(x_18, 0);
 lean::inc(x_19);

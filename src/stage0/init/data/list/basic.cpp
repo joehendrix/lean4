@@ -32,6 +32,7 @@ obj* nat_sub(obj*, obj*);
 }
 obj* l_List_length___rarg(obj*);
 obj* l_List_eraseDupsAux(obj*);
+obj* l_List_isEmpty___main___rarg___boxed(obj*);
 obj* l_List_getLastOfNonNil___rarg___boxed(obj*, obj*);
 obj* l_List_eraseIdx___rarg(obj*, obj*);
 obj* l_List_getLastOfNonNil___main(obj*);
@@ -45,6 +46,7 @@ obj* l_List_foldr___main___rarg___boxed(obj*, obj*, obj*);
 obj* l_Nat_repeatAux___main___at_List_replicate___spec__1___rarg(obj*, obj*, obj*);
 obj* l_List_or___boxed(obj*);
 obj* l_List_hasDecidableLe(obj*);
+obj* l_List_head___main(obj*);
 obj* l_List_enumFrom___rarg(obj*, obj*);
 obj* l_List_intersperse___main___rarg(obj*, obj*);
 obj* l_List_intersperse___main(obj*);
@@ -52,6 +54,7 @@ obj* l_List_lengthAux___main(obj*);
 obj* l_List_and___boxed(obj*);
 obj* l_List_get___main___rarg___boxed(obj*, obj*, obj*);
 obj* l_List_lengthAux___main___rarg(obj*, obj*);
+obj* l_List_head___main___rarg___boxed(obj*, obj*);
 obj* l_List_removeAll___rarg(obj*, obj*, obj*);
 obj* l_Nat_repeatAux___main___at_List_replicate___spec__1(obj*);
 uint8 l_List_foldr___main___at_List_or___spec__1(uint8, obj*);
@@ -76,6 +79,7 @@ obj* l_List_take___main(obj*);
 obj* l_List_set___main(obj*);
 obj* l_List_reverse___rarg(obj*);
 obj* l_List_hasDecidableLe___rarg___boxed(obj*, obj*, obj*, obj*);
+uint8 l_List_isEmpty___main___rarg(obj*);
 obj* l_List_bind___rarg(obj*, obj*);
 obj* l_List_hasDecEq___main(obj*);
 obj* l_List_reverse(obj*);
@@ -118,11 +122,14 @@ obj* l_List_filterAux(obj*);
 obj* l_List_isEqv(obj*);
 obj* l_List_partitionAux(obj*);
 obj* l_List_foldr___rarg___boxed(obj*, obj*, obj*);
+obj* l_List_foldr1Opt___main(obj*);
 obj* l_List_enumFrom___main___rarg(obj*, obj*);
 obj* l_List_take___rarg(obj*, obj*);
 obj* l_List_set(obj*);
 uint8 l_List_isSuffixOf___rarg(obj*, obj*, obj*);
+obj* l_List_getLast___main___rarg(obj*, obj*);
 obj* l_List_span___rarg(obj*, obj*);
+obj* l_List_tail___main(obj*);
 obj* l_List_elem(obj*);
 obj* l_List_join___main___rarg(obj*);
 obj* l_List_getOpt(obj*);
@@ -142,12 +149,14 @@ obj* l_List_partition___rarg___closed__1;
 obj* l_List_spanAux___main___rarg(obj*, obj*, obj*);
 obj* l_List_rangeAux___main(obj*, obj*);
 obj* l_List_HasLessEq(obj*, obj*);
+obj* l_List_foldr1Opt___main___rarg(obj*, obj*);
 obj* l_List_foldr1___main___rarg(obj*, obj*, obj*);
 obj* l_List_filterAux___main___at_List_removeAll___spec__1(obj*);
 uint8 l_List_isPrefixOf___main___rarg(obj*, obj*, obj*);
 obj* l_List_DecidableEq(obj*);
 obj* l_List_DecidableEq___rarg(obj*);
 obj* l_List_filterMap___rarg(obj*, obj*);
+obj* l_List_isEmpty___main(obj*);
 obj* l_List_erase___main___rarg(obj*, obj*, obj*);
 obj* l_List_append___rarg(obj*, obj*);
 obj* l_List_enum___rarg(obj*);
@@ -224,6 +233,7 @@ uint8 l_List_foldr___main___at_List_and___spec__1(uint8, obj*);
 obj* l_List_isSuffixOf(obj*);
 obj* l_List_hasDecEq(obj*);
 obj* l_List_zipWith___rarg(obj*, obj*, obj*);
+obj* l_List_head___main___rarg(obj*, obj*);
 obj* l_List_foldr___main___at_List_all___spec__1(obj*);
 obj* l_List_zip___rarg(obj*, obj*);
 obj* l_List_partitionAux___rarg(obj*, obj*, obj*);
@@ -240,6 +250,7 @@ obj* l_List_any___rarg___boxed(obj*, obj*);
 obj* l_List_reverseAux___rarg(obj*, obj*);
 obj* l_List_map(obj*, obj*);
 obj* l_List_foldr(obj*, obj*);
+obj* l_List_tail___main___rarg(obj*);
 obj* l_List_get___main(obj*);
 obj* l_List_lookup___rarg(obj*, obj*, obj*);
 obj* l_List_filterAux___main(obj*);
@@ -249,6 +260,7 @@ obj* l_List_filter___rarg(obj*, obj*);
 uint8 l_List_hasDecEq___rarg(obj*, obj*, obj*);
 obj* l_List_isEqv___main(obj*);
 uint8 l_List_hasDecidableLt___rarg(obj*, obj*, obj*, obj*);
+obj* l_List_getLast___main___rarg___boxed(obj*, obj*);
 obj* l_List_any(obj*);
 obj* l_List_eraseDupsAux___main(obj*);
 obj* l_List_hasDecEq___main___rarg___boxed(obj*, obj*, obj*);
@@ -266,8 +278,10 @@ obj* l_List_drop___rarg___boxed(obj*, obj*);
 obj* l_List_map_u2082___main___rarg(obj*, obj*, obj*);
 obj* l_List_get___main___rarg(obj*, obj*, obj*);
 obj* l_List_find___main(obj*);
+obj* l_List_tail___main___rarg___boxed(obj*);
 obj* l_List_eraseIdx___main___rarg___boxed(obj*, obj*);
 obj* l_List_spanAux(obj*);
+obj* l_List_getLast___main(obj*);
 obj* l_List_HasAppend___closed__1;
 obj* l_List_zip___rarg___lambda__1(obj*, obj*);
 obj* l_List_eraseIdx___main___rarg(obj*, obj*);
@@ -849,7 +863,7 @@ lean::dec(x_1);
 return x_2;
 }
 }
-uint8 l_List_isEmpty___rarg(obj* x_1) {
+uint8 l_List_isEmpty___main___rarg(obj* x_1) {
 _start:
 {
 if (lean::obj_tag(x_1) == 0)
@@ -864,6 +878,32 @@ uint8 x_3;
 x_3 = 0;
 return x_3;
 }
+}
+}
+obj* l_List_isEmpty___main(obj* x_1) {
+_start:
+{
+obj* x_2; 
+x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_List_isEmpty___main___rarg___boxed), 1, 0);
+return x_2;
+}
+}
+obj* l_List_isEmpty___main___rarg___boxed(obj* x_1) {
+_start:
+{
+uint8 x_2; obj* x_3; 
+x_2 = l_List_isEmpty___main___rarg(x_1);
+lean::dec(x_1);
+x_3 = lean::box(x_2);
+return x_3;
+}
+}
+uint8 l_List_isEmpty___rarg(obj* x_1) {
+_start:
+{
+uint8 x_2; 
+x_2 = l_List_isEmpty___main___rarg(x_1);
+return x_2;
 }
 }
 obj* l_List_isEmpty(obj* x_1) {
@@ -1175,7 +1215,7 @@ lean::dec(x_2);
 return x_4;
 }
 }
-obj* l_List_head___rarg(obj* x_1, obj* x_2) {
+obj* l_List_head___main___rarg(obj* x_1, obj* x_2) {
 _start:
 {
 if (lean::obj_tag(x_2) == 0)
@@ -1190,6 +1230,32 @@ x_3 = lean::cnstr_get(x_2, 0);
 lean::inc(x_3);
 return x_3;
 }
+}
+}
+obj* l_List_head___main(obj* x_1) {
+_start:
+{
+obj* x_2; 
+x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_List_head___main___rarg___boxed), 2, 0);
+return x_2;
+}
+}
+obj* l_List_head___main___rarg___boxed(obj* x_1, obj* x_2) {
+_start:
+{
+obj* x_3; 
+x_3 = l_List_head___main___rarg(x_1, x_2);
+lean::dec(x_2);
+lean::dec(x_1);
+return x_3;
+}
+}
+obj* l_List_head___rarg(obj* x_1, obj* x_2) {
+_start:
+{
+obj* x_3; 
+x_3 = l_List_head___main___rarg(x_1, x_2);
+return x_3;
 }
 }
 obj* l_List_head(obj* x_1) {
@@ -1210,7 +1276,7 @@ lean::dec(x_1);
 return x_3;
 }
 }
-obj* l_List_tail___rarg(obj* x_1) {
+obj* l_List_tail___main___rarg(obj* x_1) {
 _start:
 {
 if (lean::obj_tag(x_1) == 0)
@@ -1224,6 +1290,31 @@ x_2 = lean::cnstr_get(x_1, 1);
 lean::inc(x_2);
 return x_2;
 }
+}
+}
+obj* l_List_tail___main(obj* x_1) {
+_start:
+{
+obj* x_2; 
+x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_List_tail___main___rarg___boxed), 1, 0);
+return x_2;
+}
+}
+obj* l_List_tail___main___rarg___boxed(obj* x_1) {
+_start:
+{
+obj* x_2; 
+x_2 = l_List_tail___main___rarg(x_1);
+lean::dec(x_1);
+return x_2;
+}
+}
+obj* l_List_tail___rarg(obj* x_1) {
+_start:
+{
+obj* x_2; 
+x_2 = l_List_tail___main___rarg(x_1);
+return x_2;
 }
 }
 obj* l_List_tail(obj* x_1) {
@@ -2860,7 +2951,7 @@ x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_List_foldr1___rarg), 3, 0);
 return x_2;
 }
 }
-obj* l_List_foldr1Opt___rarg(obj* x_1, obj* x_2) {
+obj* l_List_foldr1Opt___main___rarg(obj* x_1, obj* x_2) {
 _start:
 {
 if (lean::obj_tag(x_2) == 0)
@@ -2878,6 +2969,22 @@ x_5 = lean::alloc_cnstr(1, 1, 0);
 lean::cnstr_set(x_5, 0, x_4);
 return x_5;
 }
+}
+}
+obj* l_List_foldr1Opt___main(obj* x_1) {
+_start:
+{
+obj* x_2; 
+x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_List_foldr1Opt___main___rarg), 2, 0);
+return x_2;
+}
+}
+obj* l_List_foldr1Opt___rarg(obj* x_1, obj* x_2) {
+_start:
+{
+obj* x_3; 
+x_3 = l_List_foldr1Opt___main___rarg(x_1, x_2);
+return x_3;
 }
 }
 obj* l_List_foldr1Opt(obj* x_1) {
@@ -3719,7 +3826,7 @@ lean::dec(x_1);
 return x_3;
 }
 }
-obj* l_List_getLast___rarg(obj* x_1, obj* x_2) {
+obj* l_List_getLast___main___rarg(obj* x_1, obj* x_2) {
 _start:
 {
 if (lean::obj_tag(x_2) == 0)
@@ -3733,6 +3840,32 @@ obj* x_3;
 x_3 = l_List_getLastOfNonNil___main___rarg(x_2, lean::box(0));
 return x_3;
 }
+}
+}
+obj* l_List_getLast___main(obj* x_1) {
+_start:
+{
+obj* x_2; 
+x_2 = lean::alloc_closure(reinterpret_cast<void*>(l_List_getLast___main___rarg___boxed), 2, 0);
+return x_2;
+}
+}
+obj* l_List_getLast___main___rarg___boxed(obj* x_1, obj* x_2) {
+_start:
+{
+obj* x_3; 
+x_3 = l_List_getLast___main___rarg(x_1, x_2);
+lean::dec(x_2);
+lean::dec(x_1);
+return x_3;
+}
+}
+obj* l_List_getLast___rarg(obj* x_1, obj* x_2) {
+_start:
+{
+obj* x_3; 
+x_3 = l_List_getLast___main___rarg(x_1, x_2);
+return x_3;
 }
 }
 obj* l_List_getLast(obj* x_1) {

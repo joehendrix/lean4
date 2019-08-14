@@ -14,6 +14,7 @@ typedef lean::uint32 uint32; typedef lean::uint64 uint64;
 #pragma GCC diagnostic ignored "-Wunused-label"
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
 #endif
+obj* l_RBNode_setBlack___main___rarg(obj*);
 extern "C" uint8 lean_name_dec_eq(obj*, obj*);
 obj* l_Lean_Name_HasToString;
 obj* l_Lean_Name_toStringWithSep___main___closed__1;
@@ -65,7 +66,6 @@ namespace lean {
 uint8 string_dec_lt(obj*, obj*);
 }
 obj* l_Lean_NameMap_find(obj*);
-uint8 l_RBNode_isRed___rarg(obj*);
 namespace lean {
 uint8 nat_dec_lt(obj*, obj*);
 }
@@ -84,6 +84,7 @@ namespace lean {
 uint8 nat_dec_eq(obj*, obj*);
 }
 obj* l_RBNode_find___main___at_Lean_NameMap_contains___spec__1___rarg(obj*, obj*);
+uint8 l_RBNode_isRed___main___rarg(obj*);
 obj* l_Lean_Name_isPrefixOf___main___boxed(obj*, obj*);
 obj* l_Lean_NameMap_insert___rarg(obj*, obj*, obj*);
 obj* l_RBNode_ins___main___at_Lean_NameMap_insert___spec__3(obj*);
@@ -121,7 +122,6 @@ obj* l_String_toName(obj*);
 obj* l_Lean_NameMap_Inhabited(obj*);
 obj* l_RBNode_find___main___at_Lean_NameSet_contains___spec__1(obj*, obj*);
 obj* l_Lean_NameSet_Inhabited;
-obj* l_RBNode_setBlack___rarg(obj*);
 obj* l_Lean_Name_components_x27___main(obj*);
 uint8 l_Lean_Name_DecidableRel(obj*, obj*);
 obj* l_Lean_Name_toString___closed__1;
@@ -1406,7 +1406,7 @@ return x_1;
 else
 {
 uint8 x_34; 
-x_34 = l_RBNode_isRed___rarg(x_31);
+x_34 = l_RBNode_isRed___main___rarg(x_31);
 if (x_34 == 0)
 {
 obj* x_35; 
@@ -2086,7 +2086,7 @@ return x_1;
 else
 {
 uint8 x_174; 
-x_174 = l_RBNode_isRed___rarg(x_28);
+x_174 = l_RBNode_isRed___main___rarg(x_28);
 if (x_174 == 0)
 {
 obj* x_175; 
@@ -2805,7 +2805,7 @@ return x_321;
 else
 {
 uint8 x_322; 
-x_322 = l_RBNode_isRed___rarg(x_318);
+x_322 = l_RBNode_isRed___main___rarg(x_318);
 if (x_322 == 0)
 {
 obj* x_323; obj* x_324; 
@@ -3249,7 +3249,7 @@ return x_399;
 else
 {
 uint8 x_400; 
-x_400 = l_RBNode_isRed___rarg(x_315);
+x_400 = l_RBNode_isRed___main___rarg(x_315);
 if (x_400 == 0)
 {
 obj* x_401; obj* x_402; 
@@ -3845,7 +3845,7 @@ return x_1;
 else
 {
 uint8 x_34; 
-x_34 = l_RBNode_isRed___rarg(x_31);
+x_34 = l_RBNode_isRed___main___rarg(x_31);
 if (x_34 == 0)
 {
 obj* x_35; 
@@ -4525,7 +4525,7 @@ return x_1;
 else
 {
 uint8 x_174; 
-x_174 = l_RBNode_isRed___rarg(x_28);
+x_174 = l_RBNode_isRed___main___rarg(x_28);
 if (x_174 == 0)
 {
 obj* x_175; 
@@ -5244,7 +5244,7 @@ return x_321;
 else
 {
 uint8 x_322; 
-x_322 = l_RBNode_isRed___rarg(x_318);
+x_322 = l_RBNode_isRed___main___rarg(x_318);
 if (x_322 == 0)
 {
 obj* x_323; obj* x_324; 
@@ -5688,7 +5688,7 @@ return x_399;
 else
 {
 uint8 x_400; 
-x_400 = l_RBNode_isRed___rarg(x_315);
+x_400 = l_RBNode_isRed___main___rarg(x_315);
 if (x_400 == 0)
 {
 obj* x_401; obj* x_402; 
@@ -6145,7 +6145,7 @@ obj* l_RBNode_insert___at_Lean_NameMap_insert___spec__1___rarg(obj* x_1, obj* x_
 _start:
 {
 uint8 x_4; 
-x_4 = l_RBNode_isRed___rarg(x_1);
+x_4 = l_RBNode_isRed___main___rarg(x_1);
 if (x_4 == 0)
 {
 obj* x_5; 
@@ -6156,7 +6156,7 @@ else
 {
 obj* x_6; obj* x_7; 
 x_6 = l_RBNode_ins___main___at_Lean_NameMap_insert___spec__3___rarg(x_1, x_2, x_3);
-x_7 = l_RBNode_setBlack___rarg(x_6);
+x_7 = l_RBNode_setBlack___main___rarg(x_6);
 return x_7;
 }
 }
@@ -6539,7 +6539,7 @@ return x_1;
 else
 {
 uint8 x_34; 
-x_34 = l_RBNode_isRed___rarg(x_31);
+x_34 = l_RBNode_isRed___main___rarg(x_31);
 if (x_34 == 0)
 {
 obj* x_35; 
@@ -7219,7 +7219,7 @@ return x_1;
 else
 {
 uint8 x_174; 
-x_174 = l_RBNode_isRed___rarg(x_28);
+x_174 = l_RBNode_isRed___main___rarg(x_28);
 if (x_174 == 0)
 {
 obj* x_175; 
@@ -7938,7 +7938,7 @@ return x_321;
 else
 {
 uint8 x_322; 
-x_322 = l_RBNode_isRed___rarg(x_318);
+x_322 = l_RBNode_isRed___main___rarg(x_318);
 if (x_322 == 0)
 {
 obj* x_323; obj* x_324; 
@@ -8382,7 +8382,7 @@ return x_399;
 else
 {
 uint8 x_400; 
-x_400 = l_RBNode_isRed___rarg(x_315);
+x_400 = l_RBNode_isRed___main___rarg(x_315);
 if (x_400 == 0)
 {
 obj* x_401; obj* x_402; 
@@ -8831,7 +8831,7 @@ obj* l_RBNode_insert___at_Lean_NameSet_insert___spec__1(obj* x_1, obj* x_2, obj*
 _start:
 {
 uint8 x_4; 
-x_4 = l_RBNode_isRed___rarg(x_1);
+x_4 = l_RBNode_isRed___main___rarg(x_1);
 if (x_4 == 0)
 {
 obj* x_5; 
@@ -8842,7 +8842,7 @@ else
 {
 obj* x_6; obj* x_7; 
 x_6 = l_RBNode_ins___main___at_Lean_NameSet_insert___spec__2(x_1, x_2, x_3);
-x_7 = l_RBNode_setBlack___rarg(x_6);
+x_7 = l_RBNode_setBlack___main___rarg(x_6);
 return x_7;
 }
 }

@@ -52,10 +52,10 @@ obj* l_Lean_Parser_initCacheForInput(obj*);
 obj* l_List_reverse___rarg(obj*);
 obj* l_Lean_Parser_Module_prelude___closed__1;
 obj* l_Lean_Parser_Module_prelude___elambda__1___rarg___closed__7;
+uint8 l_List_isEmpty___main___rarg(obj*);
 obj* l_Lean_Parser_Module_header___elambda__1___boxed(obj*, obj*, obj*);
 obj* l_Lean_Parser_rawCh(uint8, uint32, uint8);
 extern "C" obj* lean_io_prim_put_str(obj*, obj*);
-extern obj* l_Substring_drop___closed__2;
 obj* l___private_init_lean_parser_module_2__mkEOI___closed__1;
 obj* l_Lean_Parser_isExitCommand___boxed(obj*);
 obj* l_Lean_Parser_Module_importPath___closed__2;
@@ -112,9 +112,9 @@ uint8 nat_dec_eq(obj*, obj*);
 }
 obj* l_Array_push(obj*, obj*, obj*);
 obj* l_Lean_Parser_Module_import___elambda__1___boxed(obj*, obj*, obj*);
-uint8 l_List_isEmpty___rarg(obj*);
 extern obj* l_Lean_Parser_ident___closed__1;
 obj* l_Lean_Parser_Module_header___closed__6;
+extern obj* l_Substring_drop___main___closed__2;
 namespace lean {
 uint8 string_dec_eq(obj*, obj*);
 }
@@ -1536,7 +1536,7 @@ obj* l___private_init_lean_parser_module_2__mkEOI(obj* x_1) {
 _start:
 {
 obj* x_2; obj* x_3; obj* x_4; obj* x_5; obj* x_6; obj* x_7; obj* x_8; obj* x_9; obj* x_10; 
-x_2 = l_Substring_drop___closed__2;
+x_2 = l_Substring_drop___main___closed__2;
 x_3 = lean::alloc_cnstr(0, 3, 0);
 lean::cnstr_set(x_3, 0, x_2);
 lean::cnstr_set(x_3, 1, x_1);
@@ -2569,7 +2569,7 @@ lean::dec(x_10);
 lean::dec(x_9);
 lean::dec(x_2);
 lean::dec(x_1);
-x_15 = l_List_isEmpty___rarg(x_11);
+x_15 = l_List_isEmpty___main___rarg(x_11);
 if (x_15 == 0)
 {
 obj* x_16; obj* x_17; 

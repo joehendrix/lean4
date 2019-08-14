@@ -52,7 +52,7 @@ as.mfor $ fun a => emitLn a
 def argToCppString (x : Arg) : String :=
 match x with
 | Arg.var x => toString x
-| _         => "lean::box(0)"
+| _         => "lean_box(0)"
 
 def emitArg (x : Arg) : M Unit :=
 emit (argToCppString x)
@@ -191,32 +191,33 @@ match d with
     emitLn "lean::initialize();"
   else
     emitLn "lean_initialize_runtime_module();";
-  emitLn "obj * w = lean::io_mk_world();";
+  emitLn "obj * w = lean_io_mk_world();";
   modName ← getModName;
   emitLn ("w = initialize_" ++ (modName.mangle "") ++ "(w);");
-  emitLns ["lean::io_mark_end_initialization();",
-           "if (io_result_is_ok(w)) {",
-           "lean::scoped_task_manager tmanager(lean::hardware_concurrency());"];
+  emitLns ["lean_io_mark_end_initialization();",
+           "if (lean_io_result_is_ok(w)) {",
+           "lean_alloc_global_task_manager(lean_hardware_concurrency());"];
   if xs.size == 2 then do {
-    emitLns ["obj* in = lean::box(0);",
+    emitLns ["obj* in = lean_box(0);",
              "int i = argc;",
              "while (i > 1) {",
              " i--;",
-             " obj* n = lean::alloc_cnstr(1,2,0); lean::cnstr_set(n, 0, lean::mk_string(argv[i])); lean::cnstr_set(n, 1, in);",
+             " obj* n = lean_alloc_cnstr(1,2,0); lean_cnstr_set(n, 0, lean::mk_string(argv[i])); lean_cnstr_set(n, 1, in);",
              " in = n;",
              "}"];
     emitLn ("w = " ++ leanMainFn ++ "(in, w);")
   } else do {
     emitLn ("w = " ++ leanMainFn ++ "(w);")
   };
+  emitLn "lean_dealloc_global_task_manager();";
   emitLn "}";
-  emitLns ["if (io_result_is_ok(w)) {",
-           "  int ret = lean::unbox(io_result_get_value(w));",
-           "  lean::dec_ref(w);",
+  emitLns ["if (lean_io_result_is_ok(w)) {",
+           "  int ret = lean_unbox(lean_io_result_get_value(w));",
+           "  lean_dec_ref(w);",
            "  return ret;",
            "} else {",
-           "  lean::io_result_show_error(w);",
-           "  lean::dec_ref(w);",
+           "  lean_io_result_show_error(w);",
+           "  lean_dec_ref(w);",
            "  return 1;",
            "}"];
   emitLn "}"
@@ -243,9 +244,9 @@ emitLn "#include \"runtime/object.h\"";
 emitLn "#include \"runtime/apply.h\"";
 mwhen hasMainFn $ emitLn "#include \"runtime/init_module.h\"";
 emitLns [
- "typedef lean::object obj;    typedef lean::usize  usize;",
- "typedef lean::uint8  uint8;  typedef lean::uint16 uint16;",
- "typedef lean::uint32 uint32; typedef lean::uint64 uint64;",
+ "typedef lean_object obj; typedef size_t   usize;",
+ "typedef uint8_t  uint8;  typedef uint16_t uint16;",
+ "typedef uint32_t uint32; typedef uint64_t uint64;",
  "#if defined(__clang__)",
  "#pragma clang diagnostic ignored \"-Wunused-parameter\"",
  "#pragma clang diagnostic ignored \"-Wunused-label\"",
@@ -336,10 +337,10 @@ def emitDel (x : VarId) : M Unit :=
 do emit "lean::free_heap_obj("; emit x; emitLn ");"
 
 def emitSetTag (x : VarId) (i : Nat) : M Unit :=
-do emit "lean::cnstr_set_tag("; emit x; emit ", "; emit i; emitLn ");"
+do emit "lean_cnstr_set_tag("; emit x; emit ", "; emit i; emitLn ");"
 
 def emitSet (x : VarId) (i : Nat) (y : Arg) : M Unit :=
-do emit "lean::cnstr_set("; emit x; emit ", "; emit i; emit ", "; emitArg y; emitLn ");"
+do emit "lean_cnstr_set("; emit x; emit ", "; emit i; emit ", "; emitArg y; emitLn ");"
 
 def emitOffset (n : Nat) (offset : Nat) : M Unit :=
 if n > 0 then do
@@ -385,13 +386,13 @@ emitCtorScalarSize c.usize c.ssize; emitLn ");"
 
 def emitCtorSetArgs (z : VarId) (ys : Array Arg) : M Unit :=
 ys.size.mfor $ fun i => do
-  emit "lean::cnstr_set("; emit z; emit ", "; emit i; emit ", "; emitArg (ys.get i); emitLn ");"
+  emit "lean_cnstr_set("; emit z; emit ", "; emit i; emit ", "; emitArg (ys.get i); emitLn ");"
 
 def emitCtor (z : VarId) (c : CtorInfo) (ys : Array Arg) : M Unit :=
 do
 emitLhs z;
 if c.size == 0 && c.usize == 0 && c.ssize == 0 then do
-  emit "lean::box("; emit c.cidx; emitLn ");"
+  emit "lean_box("; emit c.cidx; emitLn ");"
 else do
   emitAllocCtor c; emitCtorSetArgs z ys
 
@@ -403,25 +404,25 @@ n.mfor $ fun i => do {
 };
 emit " "; emitLhs z; emit x; emitLn ";";
 emitLn "} else {";
-emit " lean::dec_ref("; emit x; emitLn ");";
-emit " "; emitLhs z; emitLn "lean::box(0);";
+emit " lean_dec_ref("; emit x; emitLn ");";
+emit " "; emitLhs z; emitLn "lean_box(0);";
 emitLn "}"
 
 def emitReuse (z : VarId) (x : VarId) (c : CtorInfo) (updtHeader : Bool) (ys : Array Arg) : M Unit :=
 do
-emit "if (lean::is_scalar("; emit x; emitLn ")) {";
+emit "if (lean_is_scalar("; emit x; emitLn ")) {";
 emit " "; emitLhs z; emitAllocCtor c;
 emitLn "} else {";
 emit " "; emitLhs z; emit x; emitLn ";";
-when updtHeader (do emit " lean::cnstr_set_tag("; emit z; emit ", "; emit c.cidx; emitLn ");");
+when updtHeader (do emit " lean_cnstr_set_tag("; emit z; emit ", "; emit c.cidx; emitLn ");");
 emitLn "}";
 emitCtorSetArgs z ys
 
 def emitProj (z : VarId) (i : Nat) (x : VarId) : M Unit :=
-do emitLhs z; emit "lean::cnstr_get("; emit x; emit ", "; emit i; emitLn ");"
+do emitLhs z; emit "lean_cnstr_get("; emit x; emit ", "; emit i; emitLn ");"
 
 def emitUProj (z : VarId) (i : Nat) (x : VarId) : M Unit :=
-do emitLhs z; emit "lean::cnstr_get_scalar<usize>("; emit x; emit ", sizeof(void*)*"; emit i; emitLn ");"
+do emitLhs z; emit "lean_cnstr_get_usize("; emit x; emit ", sizeof(void*)*"; emit i; emitLn ");"
 
 def emitSProj (z : VarId) (t : IRType) (n offset : Nat) (x : VarId) : M Unit :=
 do emitLhs z; emit "lean::cnstr_get_scalar<"; emit (toCppType t); emit ">("; emit x; emit ", "; emitOffset n offset; emitLn ");"
@@ -463,7 +464,7 @@ match xType with
 | IRType.uint32 => emit "lean::box_uint32"
 | IRType.uint64 => emit "lean::box_uint64"
 | IRType.float  => throw "floats are not supported yet"
-| other         => emit "lean::box"
+| other         => emit "lean_box"
 
 def emitBox (z : VarId) (x : VarId) (xType : IRType) : M Unit :=
 do emitLhs z; emitBoxFn xType; emit "("; emit x; emitLn ");"
@@ -483,7 +484,7 @@ def emitIsShared (z : VarId) (x : VarId) : M Unit :=
 do emitLhs z; emit "!lean::is_exclusive("; emit x; emitLn ");"
 
 def emitIsTaggedPtr (z : VarId) (x : VarId) : M Unit :=
-do emitLhs z; emit "!lean::is_scalar("; emit x; emitLn ");"
+do emitLhs z; emit "!lean_is_scalar("; emit x; emitLn ");"
 
 def toHexDigit (c : Nat) : String :=
 String.singleton c.digitChar
@@ -685,19 +686,19 @@ env ← getEnv;
 let n := d.name;
 if isIOUnitInitFn env n then do {
   emit "w = "; emitCppName n; emitLn "(w);";
-  emitLn "if (io_result_is_error(w)) return w;"
+  emitLn "if (lean_io_result_is_error(w)) return w;"
 } else when (d.params.size == 0) $ do {
   match getInitFnNameFor env d.name with
   | some initFn => do {
     emit "w = "; emitCppName initFn; emitLn "(w);";
-    emitLn "if (io_result_is_error(w)) return w;";
-    emitCppName n; emitLn " = io_result_get_value(w);"
+    emitLn "if (lean_io_result_is_error(w)) return w;";
+    emitCppName n; emitLn " = lean_io_result_get_value(w);"
   }
   | _ => do {
     emitCppName n; emit " = "; emitCppInitName n; emitLn "();"
   };
   when d.resultType.isObj $ do {
-    emit "lean::mark_persistent("; emitCppName n; emitLn ");"
+    emit "lean_mark_persistent("; emitCppName n; emitLn ");"
   }
 }
 
@@ -711,11 +712,11 @@ emitLns [
     "obj* initialize_" ++ modName.mangle "" ++ "(obj* w) {",
     "if (_G_initialized) return w;",
     "_G_initialized = true;",
-    "if (io_result_is_error(w)) return w;"
+    "if (lean_io_result_is_error(w)) return w;"
 ];
 env.imports.mfor $ fun m => emitLns [
   "w = initialize_" ++ m.mangle "" ++ "(w);",
-  "if (io_result_is_error(w)) return w;"
+  "if (lean_io_result_is_error(w)) return w;"
 ];
 let decls := getDecls env;
 decls.reverse.mfor emitDeclInit;

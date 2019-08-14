@@ -15,6 +15,7 @@ typedef lean::uint32 uint32; typedef lean::uint64 uint64;
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
 #endif
 extern "C" uint8 lean_name_dec_eq(obj*, obj*);
+obj* l_Lean_SMap_find___main___at_Lean_Elab_elabTerm___spec__1___boxed(obj*, obj*);
 obj* l_Lean_Elab_elabTerm___closed__2;
 obj* l_HashMapImp_find___at_Lean_Elab_elabTerm___spec__2(obj*, obj*);
 obj* l_Array_uget(obj*, obj*, usize, obj*);
@@ -27,10 +28,9 @@ obj* l_Lean_Elab_elabTerm___closed__1;
 namespace lean {
 obj* string_append(obj*, obj*);
 }
-obj* l_Lean_SMap_find___at_Lean_Elab_elabTerm___spec__1___boxed(obj*, obj*);
 obj* l_RBNode_find___main___at_Lean_addBuiltinTermElab___spec__4(obj*, obj*);
+obj* l_Lean_SMap_find___main___at_Lean_Elab_elabTerm___spec__1(obj*, obj*);
 extern obj* l_Char_HasRepr___closed__1;
-obj* l_Lean_SMap_find___at_Lean_Elab_elabTerm___spec__1(obj*, obj*);
 obj* l_Lean_Elab_elabTerm___closed__3;
 obj* l_AssocList_find___main___at_Lean_Elab_elabTerm___spec__3___boxed(obj*, obj*);
 namespace lean {
@@ -91,7 +91,7 @@ lean::dec(x_9);
 return x_10;
 }
 }
-obj* l_Lean_SMap_find___at_Lean_Elab_elabTerm___spec__1(obj* x_1, obj* x_2) {
+obj* l_Lean_SMap_find___main___at_Lean_Elab_elabTerm___spec__1(obj* x_1, obj* x_2) {
 _start:
 {
 uint8 x_3; 
@@ -174,7 +174,7 @@ lean::inc(x_11);
 lean::dec(x_6);
 x_12 = l_Lean_PersistentEnvExtension_getState___rarg(x_10, x_11);
 lean::dec(x_11);
-x_13 = l_Lean_SMap_find___at_Lean_Elab_elabTerm___spec__1(x_12, x_4);
+x_13 = l_Lean_SMap_find___main___at_Lean_Elab_elabTerm___spec__1(x_12, x_4);
 lean::dec(x_12);
 if (lean::obj_tag(x_13) == 0)
 {
@@ -221,7 +221,7 @@ lean::inc(x_28);
 lean::dec(x_23);
 x_29 = l_Lean_PersistentEnvExtension_getState___rarg(x_27, x_28);
 lean::dec(x_28);
-x_30 = l_Lean_SMap_find___at_Lean_Elab_elabTerm___spec__1(x_29, x_4);
+x_30 = l_Lean_SMap_find___main___at_Lean_Elab_elabTerm___spec__1(x_29, x_4);
 lean::dec(x_29);
 if (lean::obj_tag(x_30) == 0)
 {
@@ -301,11 +301,11 @@ lean::dec(x_1);
 return x_3;
 }
 }
-obj* l_Lean_SMap_find___at_Lean_Elab_elabTerm___spec__1___boxed(obj* x_1, obj* x_2) {
+obj* l_Lean_SMap_find___main___at_Lean_Elab_elabTerm___spec__1___boxed(obj* x_1, obj* x_2) {
 _start:
 {
 obj* x_3; 
-x_3 = l_Lean_SMap_find___at_Lean_Elab_elabTerm___spec__1(x_1, x_2);
+x_3 = l_Lean_SMap_find___main___at_Lean_Elab_elabTerm___spec__1(x_1, x_2);
 lean::dec(x_2);
 lean::dec(x_1);
 return x_3;
