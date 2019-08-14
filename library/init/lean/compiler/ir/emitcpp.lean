@@ -190,7 +190,7 @@ match d with
   if usesLeanAPI then
     emitLn "lean::initialize();"
   else
-    emitLn "lean::initialize_runtime_module();";
+    emitLn "lean_initialize_runtime_module();";
   emitLn "obj * w = lean::io_mk_world();";
   modName ← getModName;
   emitLn ("w = initialize_" ++ (modName.mangle "") ++ "(w);");

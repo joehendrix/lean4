@@ -15,7 +15,7 @@ Author: Leonardo de Moura
 
 namespace lean {
 void initialize_util_module() {
-    initialize_runtime_module();
+    lean_initialize_runtime_module();
     initialize_ascii();
     initialize_name();
     initialize_name_generator();
@@ -32,6 +32,6 @@ void finalize_util_module() {
     finalize_name_generator();
     finalize_name();
     finalize_ascii();
-    finalize_runtime_module();
+    lean_finalize_runtime_module();
 }
 }

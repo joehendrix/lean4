@@ -10,9 +10,11 @@ Author: Leonardo de Moura
 #include "runtime/thread.h"
 #include "runtime/object.h"
 #include "runtime/io.h"
+#include "runtime/init_module.h"
 
-namespace lean {
-void initialize_runtime_module() {
+using namespace lean; //NOLINT
+
+void lean_initialize_runtime_module() {
     initialize_alloc();
     initialize_debug();
     initialize_object();
@@ -20,12 +22,11 @@ void initialize_runtime_module() {
     initialize_serializer();
     initialize_thread();
 }
-void finalize_runtime_module() {
+void lean_finalize_runtime_module() {
     finalize_thread();
     finalize_serializer();
     finalize_io();
     finalize_object();
     finalize_debug();
     finalize_alloc();
-}
 }

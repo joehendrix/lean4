@@ -6,7 +6,13 @@ Author: Leonardo de Moura
 */
 #pragma once
 
-namespace lean {
-void initialize_runtime_module();
-void finalize_runtime_module();
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void lean_initialize_runtime_module();
+void lean_finalize_runtime_module();
+
+#ifdef __cplusplus
 }
+#endif
