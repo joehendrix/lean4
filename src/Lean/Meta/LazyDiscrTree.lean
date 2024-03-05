@@ -700,10 +700,11 @@ Constructs an initial entry from an expression and value.
 def fromExpr (expr : Expr) (value : α) (config : WhnfCoreConfig := {}) : MetaM (InitEntry α) := do
   let cstate ← (get : CoreM Core.State)
   let ngen := cstate.ngen
-  let cache := cstate.cache
   let metaContext ← read
   let metaState ← get
-  let lazyCtx : LazyCtx := { ngen, cache, metaContext, metaState }
+  -- Clear cache first since it will be updated and most entries not read
+  let metaState := { metaState with cache := {} }
+  let lazyCtx : LazyCtx := { ngen, cache := {}, metaContext, metaState }
   let (key, todo) ← LazyDiscrTree.rootKey config expr
   pure <| { key, entry := (todo, lazyCtx, value) }
 
