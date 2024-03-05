@@ -267,10 +267,16 @@ end MatchClone
 
 export MatchClone (Key Key.const)
 
+structure LazyCtx where
+  ngen            : NameGenerator
+  cache           : Core.Cache
+  metaContext : Meta.Context
+  metaState : Meta.State
+
 /--
 An unprocessed entry in the lazy discrimination tree.
 -/
-private abbrev LazyEntry α := Array Expr × ((LocalContext × LocalInstances) × α)
+private abbrev LazyEntry α := Array Expr × (LazyCtx × α)
 
 /--
 Index identifying trie in a discrimination tree.
@@ -424,7 +430,7 @@ private def runMatch (d : LazyDiscrTree α) (m : MatchM α β)  : MetaM (β × L
   let (result, a) ← withReducible $ (m.run c).run a
   pure (result, { config := c, tries := a, roots := r})
 
-private def setTrie (i : TrieIndex) (v : Trie α) : MatchM α Unit :=
+private def setTrie [MonadState (Array (Trie α)) M] (i : TrieIndex) (v : Trie α) : M Unit :=
   modify (·.set! i v)
 
 /-- Create a new trie with the given lazy entry. -/
@@ -432,18 +438,20 @@ private def newTrie [Monad m] [MonadState (Array (Trie α)) m] (e : LazyEntry α
   modifyGet fun a => let sz := a.size; (sz, a.push (.node #[] 0 {} #[e]))
 
 /-- Add a lazy entry to an existing trie. -/
-private def addLazyEntryToTrie (i:TrieIndex) (e : LazyEntry α) : MatchM α Unit :=
+@[inline]
+private def addLazyEntryToTrie [MonadState (Array (Trie α)) M] (i:TrieIndex) (e : LazyEntry α) : M Unit :=
   modify (·.modify i (·.pushPending e))
 
 /--
 This evaluates all lazy entries in a trie and updates `values`, `starIdx`, and `children`
 accordingly.
 -/
-private partial def evalLazyEntries (config : WhnfCoreConfig)
+private partial def evalLazyEntries
+    (config : WhnfCoreConfig)
     (values : Array α) (starIdx : TrieIndex) (children : HashMap Key TrieIndex)
     (entries : Array (LazyEntry α)) :
-    MatchM α (Array α × TrieIndex × HashMap Key TrieIndex) := do
-  let rec iter values starIdx children (i : Nat) : MatchM α _ := do
+    StateRefT (Array (Trie α)) CoreM (Array α × TrieIndex × HashMap Key TrieIndex) := do
+  let rec iter values starIdx children (i : Nat) : (StateRefT (Array (Trie α)) CoreM) _ := do
         if p : i < entries.size then
           let (todo, lctx, v) := entries[i]
           if todo.isEmpty then
@@ -452,7 +460,18 @@ private partial def evalLazyEntries (config : WhnfCoreConfig)
           else
             let e    := todo.back
             let todo := todo.pop
-            let (k, todo) ← withLCtx lctx.1 lctx.2 $ pushArgs false todo e config
+            let cctx ← (read : CoreM Core.Context)
+            let cstate ← (get : CoreM Core.State)
+            let ngen0 := cstate.ngen
+            let cache0 := cstate.cache
+            let (((k, todo), mstate), cstate') ← do
+              let cstate : Core.State := { cstate with ngen := lctx.ngen, cache := lctx.cache }
+              pushArgs false todo e config
+                |>.run lctx.metaContext lctx.metaState
+                |>.run cctx cstate
+            set { cstate' with ngen := ngen0, cache := cache0 }
+            let lctx := { lctx with metaState := mstate, ngen := cstate.ngen, cache := cstate.cache }
+            liftM (modify (fun (cs : Core.State) => {cs with messages := cstate.messages}) : CoreM Unit)
             if k == .star then
               if starIdx = 0 then
                 let starIdx ← newTrie (todo, lctx, v)
@@ -472,17 +491,25 @@ private partial def evalLazyEntries (config : WhnfCoreConfig)
           pure (values, starIdx, children)
   iter values starIdx children 0
 
-private def evalNode (c : TrieIndex) :
-    MatchM α (Array α × TrieIndex × HashMap Key TrieIndex) := do
+
+private def evalNode (config : WhnfCoreConfig) (c : TrieIndex) :
+    StateRefT (Array (Trie α)) CoreM (Array α × TrieIndex × HashMap Key TrieIndex) := do
   let .node vs star cs pending := (←get).get! c
   if pending.size = 0 then
     pure (vs, star, cs)
   else
-    let config ← read
     setTrie c default
     let (vs, star, cs) ← evalLazyEntries config vs star cs pending
     setTrie c <| .node vs star cs #[]
     pure (vs, star, cs)
+
+private def evalNode' (idx : TrieIndex) :
+    MatchM α (Array α × TrieIndex × HashMap Key TrieIndex) := do
+  let config ← read
+  let a ← get
+  let (result, a) ← evalNode config idx |>.run a
+  set a
+  pure result
 
 /--
 Return the information about the trie at the given idnex.
@@ -490,8 +517,10 @@ Return the information about the trie at the given idnex.
 Used for internal debugging purposes.
 -/
 private def getTrie (d : LazyDiscrTree α) (idx : TrieIndex) :
-    MetaM ((Array α × TrieIndex × HashMap Key TrieIndex) × LazyDiscrTree α) :=
-  runMatch d (evalNode idx)
+    CoreM ((Array α × TrieIndex × HashMap Key TrieIndex) × LazyDiscrTree α) := do
+  let { config := c, tries := a, roots := r } := d
+  let (result, a) ← evalNode c idx |>.run a
+  pure (result, { config := c, tries := a, roots := r})
 
 /--
 A match result contains the terms formed from matching a term against
@@ -536,7 +565,7 @@ private partial def MatchResult.toArray (mr : MatchResult α) : Array α :=
 
 private partial def getMatchLoop (todo : Array Expr) (score : Nat) (c : TrieIndex)
     (result : MatchResult α) : MatchM α (MatchResult α) := do
-  let (vs, star, cs) ← evalNode c
+  let (vs, star, cs) ← evalNode' c
   if todo.isEmpty then
     return result.push score vs
   else if star == 0 && cs.isEmpty then
@@ -575,7 +604,7 @@ private def getStarResult (root : Lean.HashMap Key TrieIndex) : MatchM α (Match
   | none =>
     pure <| {}
   | some idx => do
-    let (vs, _) ← evalNode idx
+    let (vs, _) ← evalNode' idx
     pure <| ({} : MatchResult α).push 0 vs
 
 private def getMatchRoot (r : Lean.HashMap Key TrieIndex) (k : Key) (args : Array Expr)
@@ -669,11 +698,14 @@ namespace InitEntry
 Constructs an initial entry from an expression and value.
 -/
 def fromExpr (expr : Expr) (value : α) (config : WhnfCoreConfig := {}) : MetaM (InitEntry α) := do
-  let lctx ← getLCtx
-  let linst ← getLocalInstances
-  let lctx := (lctx, linst)
+  let cstate ← (get : CoreM Core.State)
+  let ngen := cstate.ngen
+  let cache := cstate.cache
+  let metaContext ← read
+  let metaState ← get
+  let lazyCtx : LazyCtx := { ngen, cache, metaContext, metaState }
   let (key, todo) ← LazyDiscrTree.rootKey config expr
-  pure <| { key, entry := (todo, lctx, value) }
+  pure <| { key, entry := (todo, lazyCtx, value) }
 
 /--
 Creates an entry for a subterm of an initial entry.
